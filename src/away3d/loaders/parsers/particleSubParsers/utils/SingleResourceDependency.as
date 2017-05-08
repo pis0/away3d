@@ -18,17 +18,21 @@ package away3d.loaders.parsers.particleSubParsers.utils
 		private var _resolved:Boolean;
 		private var _hasLoaded:Boolean;
 		private var _originalUrl:String;
+
 		public function SingleResourceDependency(id:String, req:URLRequest, data:*, parentParser:CompositeParserBase, retrieveAsRawData:Boolean = false, suppressAssetEvents:Boolean = false)
 		{
 			_originalUrl=req.url;
-			var loadedAssets:Vector.<IAsset> = parentParser.root.getAssets(req.url);
-			if (loadedAssets)
+
+            var loadedAssets:Vector.<IAsset> = parentParser.root.getAssets(req.url);
+            if (loadedAssets)
 			{
-				_hasLoaded=true;
-				retrieveAsRawData=true;
-				data=true;
-			}
-			super(id, req, data, parentParser, retrieveAsRawData, suppressAssetEvents);
+                _hasLoaded=true;
+                retrieveAsRawData=true;
+                data=true;
+            }
+
+            super(id, req, data, parentParser, retrieveAsRawData, suppressAssetEvents);
+
 			if(_hasLoaded)
 			{
 				trace("shared resource");
