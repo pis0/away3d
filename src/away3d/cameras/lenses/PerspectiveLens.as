@@ -1,6 +1,7 @@
 package away3d.cameras.lenses
 {
-	import away3d.core.math.*;
+    import away3d.cameras.Camera3D;
+    import away3d.core.math.*;
 	
 	import flash.geom.*;
 	
@@ -21,7 +22,8 @@ package away3d.cameras.lenses
 		 *
 		 * @param fieldOfView The vertical field of view of the projection.
 		 */
-		public function PerspectiveLens(fieldOfView:Number = 60, coordinateSystem:uint = CoordinateSystem.LEFT_HANDED)
+        public function PerspectiveLens(fieldOfView:Number = 60, coordinateSystem:uint = 0)
+//		public function PerspectiveLens(fieldOfView:Number = 60, coordinateSystem:uint = CoordinateSystem.LEFT_HANDED)
 		{
 			super();
 			

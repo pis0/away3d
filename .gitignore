@@ -1,1 +1,4 @@
 *.iml
+
+.settings
+.project
