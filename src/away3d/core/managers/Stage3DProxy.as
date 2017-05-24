@@ -214,8 +214,7 @@ package away3d.core.managers
          */
         public function clear():void
         {
-            if (!_context3D)
-                return;
+            if (!_context3D) return;
 
             if (_backBufferDirty)
             {
@@ -586,8 +585,7 @@ package away3d.core.managers
          */
         private function onEnterFrame(event:Event):void
         {
-            if (!_context3D)
-                return;
+            if (!_context3D) return;
 
             // Clear the stage3D instance
             clear();
