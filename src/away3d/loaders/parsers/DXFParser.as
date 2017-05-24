@@ -1,9 +1,5 @@
 package away3d.loaders.parsers
 {
-	import flash.geom.Vector3D;
-	import flash.utils.ByteArray;
-	import flash.utils.Dictionary;
-	
 	import away3d.arcane;
 	import away3d.core.base.CompactSubGeometry;
 	import away3d.core.base.Geometry;
@@ -14,6 +10,11 @@ package away3d.loaders.parsers
 	import away3d.materials.ColorMultiPassMaterial;
 	import away3d.materials.MaterialBase;
 	import away3d.primitives.LineSegment;
+
+	import com.assukar.airong.utils.Utils;
+
+	import flash.geom.Vector3D;
+	import flash.utils.Dictionary;
 	
 	use namespace arcane;
 	
@@ -340,7 +341,7 @@ package away3d.loaders.parsers
 									_polyLinesIndices = new Vector.<int>();
 									_meshName = "polyline";
 								} else {
-									trace("Skip: unsupported POLYLINE structure");
+									Utils.log("Skip: unsupported POLYLINE structure");
 									_polyLines = null;
 									_polyLinesIndices = null;
 								}

@@ -1,11 +1,5 @@
 package away3d.loaders.parsers
 {
-	import flash.display.BitmapData;
-	import flash.geom.Matrix3D;
-	import flash.geom.Vector3D;
-	import flash.net.URLRequest;
-	
-	import away3d.arcane;
 	import away3d.animators.SkeletonAnimationSet;
 	import away3d.animators.data.JointPose;
 	import away3d.animators.data.Skeleton;
@@ -13,6 +7,7 @@ package away3d.loaders.parsers
 	import away3d.animators.data.SkeletonPose;
 	import away3d.animators.nodes.AnimationNodeBase;
 	import away3d.animators.nodes.SkeletonClipNode;
+	import away3d.arcane;
 	import away3d.containers.ObjectContainer3D;
 	import away3d.core.base.CompactSubGeometry;
 	import away3d.core.base.Geometry;
@@ -33,6 +28,13 @@ package away3d.loaders.parsers
 	import away3d.materials.utils.DefaultMaterialManager;
 	import away3d.textures.BitmapTexture;
 	import away3d.textures.Texture2DBase;
+
+	import com.assukar.airong.utils.Utils;
+
+	import flash.display.BitmapData;
+	import flash.geom.Matrix3D;
+	import flash.geom.Vector3D;
+	import flash.net.URLRequest;
 	
 	use namespace arcane;
 	
@@ -372,7 +374,7 @@ package away3d.loaders.parsers
 				else if (node.instance_controllers.length > 0)
 					container = processControllers(node, parent);
 				else {
-					// trace("Should be a container " + node.id)
+					// Utils.log("Should be a container " + node.id)
 					container = new ObjectContainer3D();
 					container.name = node.id;
 					container.transform.rawData = node.matrix.rawData;
@@ -609,7 +611,7 @@ package away3d.loaders.parsers
 				try {
 					node = _root.findNodeById(skeleton.joints[i].name) || _root.findNodeBySid(skeleton.joints[i].name);
 				} catch (e:Error) {
-					trace("Errors found in skeleton joints data");
+					Utils.log("Errors found in skeleton joints data");
 					return false;
 				}
 				if (node && node.channels.length)
@@ -742,7 +744,7 @@ package away3d.loaders.parsers
 				try {
 					parseSkeletonHierarchy(node.nodes[i], skin, skeleton, jointIndex);
 				} catch (e:Error) {
-					trace(e.message);
+					Utils.log(e.message);
 				}
 			}
 		}
@@ -752,7 +754,7 @@ package away3d.loaders.parsers
 			if (!effect || !material)
 				return null;
 			
-			var mat:MaterialBase
+			var mat:MaterialBase;
 			if (materialMode < 2)
 				mat = _defaultColorMaterial;
 			else
@@ -932,6 +934,8 @@ package away3d.loaders.parsers
 }
 
 import away3d.loaders.parsers.*;
+
+import com.assukar.airong.utils.Utils;
 
 import flash.geom.*;
 
@@ -1818,7 +1822,7 @@ class DAEShader extends DAEElement
 				this.props[nodeName] = parseFloat(readText(child.ns::float[0]));
 				break;
 			default:
-				trace("[WARNING] unhandled DAEShader property: " + nodeName);
+				Utils.log("[WARNING] unhandled DAEShader property: " + nodeName);
 		}
 	}
 }
@@ -1886,7 +1890,7 @@ class DAEEffect extends DAEElement
 					this.sampler.sid = element.@sid.toString();
 					break;
 				default:
-					trace("[WARNING] unhandled newparam: " + name);
+					Utils.log("[WARNING] unhandled newparam: " + name);
 			}
 		}
 	}
@@ -2106,23 +2110,23 @@ class DAENode extends DAEElement
 								//m.transpose();
 								if (channel.arrayIndices.length > 1) {
 									//	m.rawData[channel.arrayIndices[0] * 4 + channel.arrayIndices[1]] = odata[0];
-									//	trace(channel.arrayIndices[0] * 4 + channel.arrayIndices[1])
+									//	Utils.log(channel.arrayIndices[0] * 4 + channel.arrayIndices[1])
 								}
 								
 							} else if (channel.dotAccess)
-								trace("unhandled matrix array access");
+								Utils.log("unhandled matrix array access");
 							
 							else if (odata.length == 16) {
 								m.rawData = odata;
 								m.transpose();
 								
 							} else
-								trace("unhandled matrix " + transform.sid + " " + odata);
+								Utils.log("unhandled matrix " + transform.sid + " " + odata);
 							break;
 						
 						case "rotate":
 							if (channel.arrayAccess)
-								trace("unhandled rotate array access");
+								Utils.log("unhandled rotate array access");
 							
 							else if (channel.dotAccess) {
 								
@@ -2131,16 +2135,16 @@ class DAENode extends DAEElement
 										m.appendRotation(odata[0], new Vector3D(tdata[0], tdata[1], tdata[2]));
 										break;
 									default:
-										trace("unhandled rotate dot access " + channel.dotAccessor);
+										Utils.log("unhandled rotate dot access " + channel.dotAccessor);
 								}
 								
 							} else
-								trace("unhandled rotate");
+								Utils.log("unhandled rotate");
 							break;
 						
 						case "scale":
 							if (channel.arrayAccess)
-								trace("unhandled scale array access");
+								Utils.log("unhandled scale array access");
 							
 							else if (channel.dotAccess) {
 								
@@ -2155,16 +2159,16 @@ class DAENode extends DAEElement
 										m.appendScale(tdata[0], tdata[1], odata[0]);
 										break;
 									default:
-										trace("unhandled scale dot access " + channel.dotAccessor);
+										Utils.log("unhandled scale dot access " + channel.dotAccessor);
 								}
 								
 							} else
-								trace("unhandled scale: " + odata.length);
+								Utils.log("unhandled scale: " + odata.length);
 							break;
 						
 						case "translate":
 							if (channel.arrayAccess)
-								trace("unhandled translate array access");
+								Utils.log("unhandled translate array access");
 							
 							else if (channel.dotAccess) {
 								
@@ -2179,7 +2183,7 @@ class DAENode extends DAEElement
 										m.appendTranslation(tdata[0], tdata[1], odata[0]);
 										break;
 									default:
-										trace("unhandled translate dot access " + channel.dotAccessor);
+										Utils.log("unhandled translate dot access " + channel.dotAccessor);
 								}
 								
 							} else
@@ -2187,7 +2191,7 @@ class DAENode extends DAEElement
 							break;
 						
 						default:
-							trace("unhandled transform type " + transform.type);
+							Utils.log("unhandled transform type " + transform.type);
 							continue;
 					}
 					matrix.prepend(m);

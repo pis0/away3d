@@ -448,7 +448,7 @@
 			b *= len;
 			c *= len;
 			var dist:Number = a*(point.x - v0x) + b*(point.y - v0y) + c*(point.z - v0z);
-			trace(dist);
+			Utils.log(dist);
 			return dist > -epsilon && dist < epsilon;
 		}
 		

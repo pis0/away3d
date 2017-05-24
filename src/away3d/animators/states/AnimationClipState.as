@@ -122,7 +122,7 @@ package away3d.animators.states
 			var lastFrame:uint = _animationClipNode.lastFrame;
 			var time:int = _time;
 			
-			//trace("time", time, totalDuration)
+			//Utils.log("time", time, totalDuration)
 			if (looping && (time >= totalDuration || time < 0)) {
 				time %= totalDuration;
 				if (time < 0)

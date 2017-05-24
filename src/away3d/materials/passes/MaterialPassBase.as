@@ -1,7 +1,7 @@
 package away3d.materials.passes
 {
-	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.IAnimationSet;
+	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.base.IRenderable;
@@ -11,7 +11,9 @@ package away3d.materials.passes
 	import away3d.errors.AbstractMethodError;
 	import away3d.materials.MaterialBase;
 	import away3d.materials.lightpickers.LightPickerBase;
-	
+
+	import com.assukar.airong.utils.Utils;
+
 	import flash.display.BlendMode;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DBlendFactor;
@@ -492,11 +494,11 @@ package away3d.materials.passes
 			
 			var fragmentCode:String = getFragmentCode(fragmentAnimatorCode);
 			if (Debug.active) {
-				trace("Compiling AGAL Code:");
-				trace("--------------------");
-				trace(vertexCode);
-				trace("--------------------");
-				trace(fragmentCode);
+				Utils.log("Compiling AGAL Code:");
+				Utils.log("--------------------");
+				Utils.log(vertexCode);
+				Utils.log("--------------------");
+				Utils.log(fragmentCode);
 			}
 			AGALProgram3DCache.getInstance(stage3DProxy).setProgram3D(this, vertexCode, fragmentCode);
 		}

@@ -138,19 +138,19 @@ package com.adobe.utils
 				if ( !opCode ) 
 				{
 					if ( line.length >= 3 )
-						trace( "warning: bad line "+i+": "+lines[i] );
+						Utils.log( "warning: bad line "+i+": "+lines[i] );
 					continue;
 				}
 				var opFound:OpCode = OPMAP[ opCode[0] ];
 				
 				// if debug is enabled, output the opcodes
 				if ( debugEnabled )
-					trace( opFound );
+					Utils.log( opFound );
 				
 				if ( opFound == null )
 				{
 					if ( line.length >= 3 )
-						trace( "warning: bad line "+i+": "+lines[i] );
+						Utils.log( "warning: bad line "+i+": "+lines[i] );
 					continue;
 				}
 				
@@ -174,7 +174,7 @@ package com.adobe.utils
 					break;
 				}
 				if ( verbose )
-					trace( "emit opcode=" + opFound );
+					Utils.log( "emit opcode=" + opFound );
 				
 				agalcode.writeUnsignedInt( opFound.emitCode );
 				nops++;
@@ -210,7 +210,7 @@ package com.adobe.utils
 						regs[ j ] = regs[ j ].replace( relreg[ 0 ], "0" );
 						
 						if ( verbose )
-							trace( "IS REL" );
+							Utils.log( "IS REL" );
 						isRelative = true;
 					}
 					
@@ -225,7 +225,7 @@ package com.adobe.utils
 					
 					// if debug is enabled, output the registers
 					if ( debugEnabled )
-						trace( regFound );
+						Utils.log( regFound );
 					
 					if ( regFound == null )
 					{
@@ -260,7 +260,7 @@ package com.adobe.utils
 					}
 					
 					regs[j] = regs[j].slice( regs[j].search( regFound.name ) + regFound.name.length );
-					//trace( "REGNUM: " +regs[j] );
+					//Utils.log( "REGNUM: " +regs[j] );
 					var idxmatch:Array = isRelative ? relreg[0].match( /\d+/ ) : regs[j].match( /\d+/ );
 					var regidx:uint = 0;
 					
@@ -344,11 +344,11 @@ package com.adobe.utils
 							break;							
 						}
 						if ( verbose )
-							trace( "RELATIVE: type="+reltype+"=="+relname[0]+" sel="+relsel+"=="+selmatch[0]+" idx="+regidx+" offset="+reloffset ); 
+							Utils.log( "RELATIVE: type="+reltype+"=="+relname[0]+" sel="+relsel+"=="+selmatch[0]+" idx="+regidx+" offset="+reloffset ); 
 					}
 					
 					if ( verbose )
-						trace( "  emit argcode="+regFound+"["+regidx+"]["+regmask+"]" );
+						Utils.log( "  emit argcode="+regFound+"["+regidx+"]["+regmask+"]" );
 					if ( isDest )
 					{												
 						agalcode.writeShort( regidx );
@@ -360,22 +360,22 @@ package com.adobe.utils
 						if ( isSampler )
 						{
 							if ( verbose )
-								trace( "  emit sampler" );
+								Utils.log( "  emit sampler" );
 							var samplerbits:uint = 5; // type 5 
 							var optsLength:uint = opts == null ? 0 : opts.length;
 							var bias:Number = 0; 
 							for ( k = 0; k<optsLength; k++ )
 							{
 								if ( verbose )
-									trace( "    opt: "+opts[k] );
+									Utils.log( "    opt: "+opts[k] );
 								var optfound:Sampler = SAMPLEMAP [opts[k]];
 								if ( optfound == null )
 								{
 									// todo check that it's a number...
-									//trace( "Warning, unknown sampler option: "+opts[k] );
+									//Utils.log( "Warning, unknown sampler option: "+opts[k] );
 									bias = Number(opts[k]); 
 									if ( verbose )
-										trace( "    bias: " + bias );																	
+										Utils.log( "    bias: " + bias );																	
 								}
 								else
 								{
@@ -390,7 +390,7 @@ package com.adobe.utils
 							agalcode.writeUnsignedInt( samplerbits );
 							
 							if ( verbose )
-								trace( "    bits: " + ( samplerbits - 5 ) );
+								Utils.log( "    bits: " + ( samplerbits - 5 ) );
 							pad -= 64;
 						}
 						else
@@ -424,7 +424,7 @@ package com.adobe.utils
 			{
 				_error += "\n  at line " + i + " " + lines[i];
 				agalcode.length = 0;
-				trace( _error );
+				Utils.log( _error );
 			}
 			
 			// trace the bytecode bytes if debugging is enabled
@@ -445,11 +445,11 @@ package com.adobe.utils
 					
 					dbgLine += byteStr;
 				}
-				trace( dbgLine );
+				Utils.log( dbgLine );
 			}
 			
 			if ( verbose )
-				trace( "AGALMiniAssembler.assemble time: " + ( ( getTimer() - start ) / 1000 ) + "s" );
+				Utils.log( "AGALMiniAssembler.assemble time: " + ( ( getTimer() - start ) / 1000 ) + "s" );
 			
 			return agalcode;
 		}

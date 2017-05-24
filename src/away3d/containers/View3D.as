@@ -1,6 +1,5 @@
 ﻿package away3d.containers
 {
-	
 	import away3d.*;
 	import away3d.cameras.*;
 	import away3d.cameras.lenses.*;
@@ -11,7 +10,7 @@
 	import away3d.events.*;
 	import away3d.filters.*;
 	import away3d.textures.*;
-	
+
 	import flash.display.*;
 	import flash.display3D.*;
 	import flash.display3D.textures.*;
@@ -20,6 +19,7 @@
 	import flash.net.*;
 	import flash.ui.*;
 	import flash.utils.*;
+	
 	
 	use namespace arcane;
 	

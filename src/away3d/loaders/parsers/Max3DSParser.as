@@ -11,7 +11,9 @@ package away3d.loaders.parsers
 	import away3d.materials.utils.*;
 	import away3d.textures.*;
 	import away3d.tools.utils.*;
-	
+
+	import com.assukar.airong.utils.Utils;
+
 	import flash.geom.*;
 	import flash.net.*;
 	import flash.utils.*;
@@ -494,7 +496,7 @@ package away3d.loaders.parsers
 				var faces:Vector.<FaceVO>;
 				
 				if (obj.materials.length > 1)
-					trace('The Away3D 3DS parser does not support multiple materials per mesh at this point.');
+					Utils.log('The Away3D 3DS parser does not support multiple materials per mesh at this point.');
 				
 				// Ignore empty objects
 				if (!obj.indices || obj.indices.length == 0)

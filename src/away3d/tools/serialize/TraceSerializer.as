@@ -8,7 +8,7 @@ package away3d.tools.serialize
 	use namespace arcane;
 	
 	/**
-	 * TraceSerializer is a concrete Serializer that will output its results to trace().  It has user settable tabSize and separator vars.
+	 * TraceSerializer is a concrete Serializer that will output its results to Utils.log().  It has user settable tabSize and separator vars.
 	 *
 	 * @see away3d.tools.serialize.Serialize
 	 */
@@ -44,7 +44,7 @@ package away3d.tools.serialize
 			outputString += name;
 			outputString += separator;
 			outputString += value;
-			trace(outputString);
+			Utils.log(outputString);
 		}
 		
 		/**
@@ -56,7 +56,7 @@ package away3d.tools.serialize
 			outputString += name;
 			outputString += separator;
 			outputString += value;
-			trace(outputString);
+			Utils.log(outputString);
 		}
 		
 		/**
@@ -68,7 +68,7 @@ package away3d.tools.serialize
 			outputString += name;
 			outputString += separator;
 			outputString += value;
-			trace(outputString);
+			Utils.log(outputString);
 		}
 		
 		/**
@@ -82,7 +82,7 @@ package away3d.tools.serialize
 				outputString += separator;
 				outputString += value;
 			}
-			trace(outputString);
+			Utils.log(outputString);
 		}
 		
 		/**
@@ -96,7 +96,7 @@ package away3d.tools.serialize
 				outputString += separator;
 				outputString += value;
 			}
-			trace(outputString);
+			Utils.log(outputString);
 		}
 		
 		/**
@@ -121,7 +121,7 @@ package away3d.tools.serialize
 						outputString += " ";
 				}
 			}
-			trace(outputString);
+			Utils.log(outputString);
 		}
 		
 		/**
@@ -135,7 +135,7 @@ package away3d.tools.serialize
 				outputString += separator;
 				outputString += value;
 			}
-			trace(outputString);
+			Utils.log(outputString);
 		}
 		
 		/**

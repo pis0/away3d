@@ -19,7 +19,9 @@ package away3d.loaders.parsers
 	import away3d.materials.utils.DefaultMaterialManager;
 	import away3d.textures.Texture2DBase;
 	import away3d.tools.utils.GeomUtil;
-	
+
+	import com.assukar.airong.utils.Utils;
+
 	import flash.net.URLRequest;
 	
 	use namespace arcane;
@@ -673,7 +675,7 @@ package away3d.loaders.parsers
 					lm.materialID = _lastMtlID;
 					
 					if (alpha == 0)
-						trace("Warning: an alpha value of 0 was found in mtl color tag (Tr or d) ref:" + _lastMtlID + ", mesh(es) using it will be invisible!");
+						Utils.log("Warning: an alpha value of 0 was found in mtl color tag (Tr or d) ref:" + _lastMtlID + ", mesh(es) using it will be invisible!");
 					
 					var cm:MaterialBase;
 					if (materialMode < 2) {

@@ -177,7 +177,7 @@ package away3d.debug
 			// Store instance for singleton access. Singleton status
 			// is not enforced, since the widget will work anyway.
 			if (_INSTANCE)
-				trace('Creating several statistics windows in one project. Is this intentional?');
+				Utils.log('Creating several statistics windows in one project. Is this intentional?');
 			_INSTANCE = this;
 			
 			_fps = 0;

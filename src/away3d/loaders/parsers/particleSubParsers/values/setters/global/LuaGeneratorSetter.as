@@ -2,6 +2,8 @@ package away3d.loaders.parsers.particleSubParsers.values.setters.global
 {
 	import away3d.animators.data.ParticleProperties;
 	import away3d.loaders.parsers.particleSubParsers.values.setters.SetterBase;
+
+	import com.assukar.airong.utils.Utils;
 	
 	public class LuaGeneratorSetter extends SetterBase
 	{
@@ -33,7 +35,7 @@ package away3d.loaders.parsers.particleSubParsers.values.setters.global
 		
 		private function onError(e:*):void
 		{
-			trace(e);
+			Utils.log(e);
 			Lua.lua_close(_luaState);
 			_luaState = 0;
 			throw(new Error(e));

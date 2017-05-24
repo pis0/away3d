@@ -1,17 +1,5 @@
 package away3d.loaders.parsers
 {
-	import flash.display.BitmapData;
-	import flash.display.BlendMode;
-	import flash.display.Sprite;
-	import flash.geom.ColorTransform;
-	import flash.geom.Matrix;
-	import flash.geom.Matrix3D;
-	import flash.geom.Vector3D;
-	import flash.net.URLRequest;
-	import flash.utils.ByteArray;
-	import flash.utils.Endian;
-	
-	import away3d.arcane;
 	import away3d.animators.AnimationSetBase;
 	import away3d.animators.AnimatorBase;
 	import away3d.animators.SkeletonAnimationSet;
@@ -26,6 +14,7 @@ package away3d.loaders.parsers
 	import away3d.animators.nodes.SkeletonClipNode;
 	import away3d.animators.nodes.UVClipNode;
 	import away3d.animators.nodes.VertexClipNode;
+	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.cameras.lenses.LensBase;
 	import away3d.cameras.lenses.OrthographicLens;
@@ -107,6 +96,19 @@ package away3d.loaders.parsers
 	import away3d.textures.Texture2DBase;
 	import away3d.textures.TextureProxyBase;
 	import away3d.tools.utils.GeomUtil;
+
+	import com.assukar.airong.utils.Utils;
+
+	import flash.display.BitmapData;
+	import flash.display.BlendMode;
+	import flash.display.Sprite;
+	import flash.geom.ColorTransform;
+	import flash.geom.Matrix;
+	import flash.geom.Matrix3D;
+	import flash.geom.Vector3D;
+	import flash.net.URLRequest;
+	import flash.utils.ByteArray;
+	import flash.utils.Endian;
 	
 	use namespace arcane;
 	
@@ -263,8 +265,8 @@ package away3d.loaders.parsers
 						// previously suppressed while the dependency was loaded.
 						finalizeAsset(asset);
 						if (_debug) {
-							trace("Successfully loadet Bitmap for texture");
-							trace("Parsed CubeTexture: Name = " + block.name);
+							Utils.log("Successfully loadet Bitmap for texture");
+							Utils.log("Parsed CubeTexture: Name = " + block.name);
 						}
 					}
 				}
@@ -274,7 +276,7 @@ package away3d.loaders.parsers
 					_texture_users[ressourceID].push(1);
 					
 					if (_debug)
-						trace("Successfully loadet Bitmap " + _texture_users[ressourceID].length + " / 6 for Cubetexture");
+						Utils.log("Successfully loadet Bitmap " + _texture_users[ressourceID].length + " / 6 for Cubetexture");
 					if (_texture_users[ressourceID].length == _cubeTextures.length) {
 						asset = new BitmapCubeTexture(_cubeTextures[0], _cubeTextures[1], _cubeTextures[2], _cubeTextures[3], _cubeTextures[4], _cubeTextures[5]);
 						block = _blocks[ressourceID];
@@ -287,7 +289,7 @@ package away3d.loaders.parsers
 						// previously suppressed while the dependency was loaded.
 						finalizeAsset(asset);
 						if (_debug)
-							trace("Parsed CubeTexture: Name = " + block.name);
+							Utils.log("Parsed CubeTexture: Name = " + block.name);
 					}
 				}
 			}
@@ -409,8 +411,8 @@ package away3d.loaders.parsers
 			_compression = _byteData.readUnsignedByte(); // compression	
 			
 			if (_debug) {
-				trace("Import AWDFile of version = " + _version[0] + " - " + _version[1]);
-				trace("Global Settings = Compression = " + _compression + " | Streaming = " + _streaming + " | Matrix-Precision = " + _accuracyMatrix + " | Geometry-Precision = " + _accuracyGeo + " | Properties-Precision = " + _accuracyProps);
+				Utils.log("Import AWDFile of version = " + _version[0] + " - " + _version[1]);
+				Utils.log("Global Settings = Compression = " + _compression + " | Streaming = " + _streaming + " | Matrix-Precision = " + _accuracyMatrix + " | Geometry-Precision = " + _accuracyGeo + " | Properties-Precision = " + _accuracyProps);
 			}
 			
 			// Check file integrity
@@ -474,7 +476,7 @@ package away3d.loaders.parsers
 			}
 			
 			if (_debug)
-				trace("AWDBlock:  ID = " + _cur_block_id + " | TypeID = " + type + " | Compression = " + blockCompression + " | Matrix-Precision = " + _accuracyMatrix + " | Geometry-Precision = " + _accuracyGeo + " | Properties-Precision = " + _accuracyProps);
+				Utils.log("AWDBlock:  ID = " + _cur_block_id + " | TypeID = " + type + " | Compression = " + blockCompression + " | Matrix-Precision = " + _accuracyMatrix + " | Geometry-Precision = " + _accuracyGeo + " | Properties-Precision = " + _accuracyProps);
 			
 			_blocks[_cur_block_id] = block;
 			if ((_version[0] == 2) && (_version[1] == 1)) {
@@ -578,7 +580,7 @@ package away3d.loaders.parsers
 						break;
 					default:
 						if (_debug)
-							trace("AWDBlock:   Unknown BlockType  (BlockID = " + _cur_block_id + ") - Skip " + len + " bytes");
+							Utils.log("AWDBlock:   Unknown BlockType  (BlockID = " + _cur_block_id + ") - Skip " + len + " bytes");
 						_newBlockBytes.position += len;
 						break;
 				}
@@ -588,19 +590,19 @@ package away3d.loaders.parsers
 				if (_debug) {
 					if (block.errorMessages) {
 						while (msgCnt < block.errorMessages.length) {
-							trace("        (!) Error: " + block.errorMessages[msgCnt] + " (!)");
+							Utils.log("        (!) Error: " + block.errorMessages[msgCnt] + " (!)");
 							msgCnt++;
 						}
 					}
 				}
 				if (_debug)
-					trace("\n");
+					Utils.log("\n");
 			} else {
 				if (_debug) {
-					trace("  (!)(!)(!) Error while reading AWDBlock ID " + _cur_block_id + " = skip to next block");
+					Utils.log("  (!)(!)(!) Error while reading AWDBlock ID " + _cur_block_id + " = skip to next block");
 					if (block.errorMessages) {
 						while (msgCnt < block.errorMessages.length) {
-							trace("        (!) Error: " + block.errorMessages[msgCnt] + " (!)");
+							Utils.log("        (!) Error: " + block.errorMessages[msgCnt] + " (!)");
 							msgCnt++;
 						}
 					}
@@ -725,7 +727,7 @@ package away3d.loaders.parsers
 			_blocks[blockID].data = geom;
 			
 			if (_debug)
-				trace("Parsed a TriangleGeometry: Name = " + name + "| SubGeometries = " + sub_geoms.length);
+				Utils.log("Parsed a TriangleGeometry: Name = " + name + "| SubGeometries = " + sub_geoms.length);
 		
 		}
 		
@@ -777,7 +779,7 @@ package away3d.loaders.parsers
 					break;
 				default:
 					geom = new Geometry();
-					trace("ERROR: UNSUPPORTED PRIMITIVE_TYPE");
+					Utils.log("ERROR: UNSUPPORTED PRIMITIVE_TYPE");
 					break;
 			}
 			if ((props.get(110, 1) != 1) || (props.get(111, 1) != 1)) {
@@ -791,7 +793,7 @@ package away3d.loaders.parsers
 			if (_debug) {
 				if ((primType < 0) || (primType > 7))
 					primType = 0;
-				trace("Parsed a Primivite: Name = " + name + "| type = " + primitveTypes[primType]);
+				Utils.log("Parsed a Primivite: Name = " + name + "| type = " + primitveTypes[primType]);
 			}
 		}
 		
@@ -830,7 +832,7 @@ package away3d.loaders.parsers
 			finalizeAsset(ctr, name);
 			_blocks[blockID].data = ctr;
 			if (_debug)
-				trace("Parsed a Container: Name = '" + name + "' | Parent-Name = " + parentName);
+				Utils.log("Parsed a Container: Name = '" + name + "' | Parent-Name = " + parentName);
 		}
 		
 		// Block ID = 23
@@ -924,7 +926,7 @@ package away3d.loaders.parsers
 			finalizeAsset(mesh, name);
 			_blocks[blockID].data = mesh;
 			if (_debug)
-				trace("Parsed a Mesh: Name = '" + name + "' | Parent-Name = " + parentName + "| Geometry-Name = " + geom.name + " | SubMeshes = " + mesh.subMeshes.length + " | Mat-Names = " + materialNames.toString());
+				Utils.log("Parsed a Mesh: Name = '" + name + "' | Parent-Name = " + parentName + "| Geometry-Name = " + geom.name + " | SubMeshes = " + mesh.subMeshes.length + " | Mat-Names = " + materialNames.toString());
 		
 		}
 		
@@ -944,7 +946,7 @@ package away3d.loaders.parsers
 			finalizeAsset(asset, name);
 			_blocks[blockID].data = asset;
 			if (_debug)
-				trace("Parsed a SkyBox: Name = '" + name + "' | CubeTexture-Name = " + BitmapCubeTexture(returnedArrayCubeTex[1]).name);
+				Utils.log("Parsed a SkyBox: Name = '" + name + "' | CubeTexture-Name = " + BitmapCubeTexture(returnedArrayCubeTex[1]).name);
 		
 		}
 		
@@ -1021,7 +1023,7 @@ package away3d.loaders.parsers
 			
 			_blocks[blockID].data = light;
 			if (_debug)
-				trace("Parsed a Light: Name = '" + name + "' | Type = " + lightTypes[lightType] + " | Parent-Name = " + parentName + " | ShadowMapper-Type = " + shadowMapperTypes[shadowMapperType]);
+				Utils.log("Parsed a Light: Name = '" + name + "' | Type = " + lightTypes[lightType] + " | Parent-Name = " + parentName + " | ShadowMapper-Type = " + shadowMapperTypes[shadowMapperType]);
 		
 		}
 		
@@ -1049,7 +1051,7 @@ package away3d.loaders.parsers
 					lens = new OrthographicOffCenterLens(props.get(101, -400), props.get(102, 400), props.get(103, -300), props.get(104, 300));
 					break;
 				default:
-					trace("unsupportedLenstype");
+					Utils.log("unsupportedLenstype");
 					return;
 			}
 			var camera:Camera3D = new Camera3D(lens);
@@ -1070,7 +1072,7 @@ package away3d.loaders.parsers
 			
 			_blocks[blockID].data = camera
 			if (_debug)
-				trace("Parsed a Camera: Name = '" + name + "' | Lenstype = " + lens + " | Parent-Name = " + parentName);
+				Utils.log("Parsed a Camera: Name = '" + name + "' | Lenstype = " + lens + " | Parent-Name = " + parentName);
 		
 		}
 		
@@ -1098,7 +1100,7 @@ package away3d.loaders.parsers
 			
 			_blocks[blockID].data = textureProjector
 			if (_debug)
-				trace("Parsed a TextureProjector: Name = '" + name + "' | Texture-Name = " + Texture2DBase(returnedArrayGeometry[1]).name + " | Parent-Name = " + parentName);
+				Utils.log("Parsed a TextureProjector: Name = '" + name + "' | Texture-Name = " + Texture2DBase(returnedArrayGeometry[1]).name + " | Parent-Name = " + parentName);
 		
 		}
 		
@@ -1133,7 +1135,7 @@ package away3d.loaders.parsers
 			
 			_blocks[blockID].data = lightPick
 			if (_debug)
-				trace("Parsed a StaticLightPicker: Name = '" + name + "' | Texture-Name = " + lightsArrayNames.toString());
+				Utils.log("Parsed a StaticLightPicker: Name = '" + name + "' | Texture-Name = " + lightsArrayNames.toString());
 		}
 		
 		//Block ID = 81
@@ -1207,7 +1209,7 @@ package away3d.loaders.parsers
 			
 			_blocks[blockID].data = mat;
 			if (_debug)
-				trace(debugString);
+				Utils.log(debugString);
 		}
 		
 		// Block ID = 81 AWD2.1		
@@ -1515,7 +1517,7 @@ package away3d.loaders.parsers
 			finalizeAsset(mat, name);
 			_blocks[blockID].data = mat;
 			if (_debug)
-				trace(debugString);
+				Utils.log(debugString);
 		}
 		
 		//Block ID = 82
@@ -1548,7 +1550,7 @@ package away3d.loaders.parsers
 			_blocks[blockID].data = asset;
 			if (_debug) {
 				var textureStylesNames:Array = ["external", "embed"]
-				trace("Start parsing a " + textureStylesNames[type] + " Bitmap for Texture");
+				Utils.log("Start parsing a " + textureStylesNames[type] + " Bitmap for Texture");
 			}
 		}
 		
@@ -1589,7 +1591,7 @@ package away3d.loaders.parsers
 			_blocks[blockID].data = asset;
 			if (_debug) {
 				var textureStylesNames:Array = ["external", "embed"]
-				trace("Start parsing 6 " + textureStylesNames[type] + " Bitmaps for CubeTexture");
+				Utils.log("Start parsing 6 " + textureStylesNames[type] + " Bitmaps for CubeTexture");
 			}
 		}
 		
@@ -1604,7 +1606,7 @@ package away3d.loaders.parsers
 			finalizeAsset(asset, _blocks[blockID].name);
 			_blocks[blockID].data = asset;
 			if (_debug)
-				trace("Parsed a EffectMethod: Name = " + asset.name + " Type = " + asset);
+				Utils.log("Parsed a EffectMethod: Name = " + asset.name + " Type = " + asset);
 		}
 		
 		// this functions reads and creates a EffectMethod 
@@ -1713,7 +1715,7 @@ package away3d.loaders.parsers
 			finalizeAsset(asset, _blocks[blockID].name);
 			_blocks[blockID].data = asset;
 			if (_debug)
-				trace("Parsed a ShadowMapMethodMethod: Name = " + asset.name + " | Type = " + asset + " | Light-Name = " + LightBase(returnedArray[1]));
+				Utils.log("Parsed a ShadowMapMethodMethod: Name = " + asset.name + " | Type = " + asset + " | Light-Name = " + LightBase(returnedArray[1]));
 		}
 		
 		// this functions reads and creates a ShadowMethodMethod
@@ -1804,7 +1806,7 @@ package away3d.loaders.parsers
 			finalizeAsset(skeleton, name);
 			_blocks[blockID].data = skeleton;
 			if (_debug)
-				trace("Parsed a Skeleton: Name = " + skeleton.name + " | Number of Joints = " + joints_parsed);
+				Utils.log("Parsed a Skeleton: Name = " + skeleton.name + " | Number of Joints = " + joints_parsed);
 		}
 		
 		//Block ID = 102
@@ -1838,7 +1840,7 @@ package away3d.loaders.parsers
 			finalizeAsset(pose, name);
 			_blocks[blockID].data = pose;
 			if (_debug)
-				trace("Parsed a SkeletonPose: Name = " + pose.name + " | Number of Joints = " + joints_parsed);
+				Utils.log("Parsed a SkeletonPose: Name = " + pose.name + " | Number of Joints = " + joints_parsed);
 		}
 		
 		//blockID 103
@@ -1872,7 +1874,7 @@ package away3d.loaders.parsers
 			finalizeAsset(clip, name);
 			_blocks[blockID].data = clip;
 			if (_debug)
-				trace("Parsed a SkeletonClipNode: Name = " + clip.name + " | Number of Frames = " + clip.frames.length);
+				Utils.log("Parsed a SkeletonClipNode: Name = " + clip.name + " | Number of Frames = " + clip.frames.length);
 		}
 		
 		//Block ID = 111 /  Block ID = 112
@@ -1966,7 +1968,7 @@ package away3d.loaders.parsers
 			
 			_blocks[blockID].data = clip;
 			if (_debug)
-				trace("Parsed a VertexClipNode: Name = " + clip.name + " | Target-Geometry-Name = " + Geometry(returnedArray[1]).name + " | Number of Frames = " + clip.frames.length);
+				Utils.log("Parsed a VertexClipNode: Name = " + clip.name + " | Target-Geometry-Name = " + Geometry(returnedArray[1]).name + " | Number of Frames = " + clip.frames.length);
 		}
 		
 		//BlockID 113
@@ -2005,7 +2007,7 @@ package away3d.loaders.parsers
 				finalizeAsset(newVertexAnimationSet, name);
 				_blocks[blockID].data = newVertexAnimationSet;
 				if (_debug)
-					trace("Parsed a VertexAnimationSet: Name = " + name + " | Animations = " + newVertexAnimationSet.animations.length + " | Animation-Names = " + newVertexAnimationSet.animationNames.toString());
+					Utils.log("Parsed a VertexAnimationSet: Name = " + name + " | Animations = " + newVertexAnimationSet.animations.length + " | Animation-Names = " + newVertexAnimationSet.animationNames.toString());
 				
 			} else if (skeletonFrames.length > 0) {
 				returnedArray = getAssetByID(poseBlockAdress, [AssetType.ANIMATION_NODE]);
@@ -2015,7 +2017,7 @@ package away3d.loaders.parsers
 				finalizeAsset(newSkeletonAnimationSet, name);
 				_blocks[blockID].data = newSkeletonAnimationSet;
 				if (_debug)
-					trace("Parsed a SkeletonAnimationSet: Name = " + name + " | Animations = " + newSkeletonAnimationSet.animations.length + " | Animation-Names = " + newSkeletonAnimationSet.animationNames.toString());
+					Utils.log("Parsed a SkeletonAnimationSet: Name = " + name + " | Animations = " + newSkeletonAnimationSet.animations.length + " | Animation-Names = " + newSkeletonAnimationSet.animationNames.toString());
 				
 			}
 		}
@@ -2044,7 +2046,7 @@ package away3d.loaders.parsers
 			finalizeAsset(clip, name);
 			_blocks[blockID].data = clip;
 			if (_debug)
-				trace("Parsed a UVClipNode: Name = " + name + " | Number of Frames = " + frames_parsed);
+				Utils.log("Parsed a UVClipNode: Name = " + name + " | Number of Frames = " + frames_parsed);
 		}
 		
 		//BlockID 122
@@ -2107,7 +2109,7 @@ package away3d.loaders.parsers
 				
 			}
 			if (_debug)
-				trace("Parsed a Animator: Name = " + name);
+				Utils.log("Parsed a Animator: Name = " + name);
 		}
 		
 		//Block ID = 253
@@ -2148,7 +2150,7 @@ package away3d.loaders.parsers
 			}
 			_blocks[blockID].data = targetObject
 			if (_debug)
-				trace("Parsed a CommandBlock: Name = '" + name);
+				Utils.log("Parsed a CommandBlock: Name = '" + name);
 		
 		}
 		
@@ -2158,7 +2160,7 @@ package away3d.loaders.parsers
 			var id:uint = _newBlockBytes.readUnsignedByte();
 			var nameSpaceString:String = parseVarStr();
 			if (_debug)
-				trace("Parsed a NameSpaceBlock: ID = " + id + " | String = " + nameSpaceString);
+				Utils.log("Parsed a NameSpaceBlock: ID = " + id + " | String = " + nameSpaceString);
 		}
 		
 		//blockID 255
@@ -2166,11 +2168,11 @@ package away3d.loaders.parsers
 		{
 			var props:AWDProperties = parseProperties({1:UINT32, 2:AWDSTRING, 3:AWDSTRING, 4:AWDSTRING, 5:AWDSTRING});
 			if (_debug) {
-				trace("Parsed a MetaDataBlock: TimeStamp         = " + props.get(1, 0));
-				trace("                        EncoderName       = " + props.get(2, "unknown"));
-				trace("                        EncoderVersion    = " + props.get(3, "unknown"));
-				trace("                        GeneratorName     = " + props.get(4, "unknown"));
-				trace("                        GeneratorVersion  = " + props.get(5, "unknown"));
+				Utils.log("Parsed a MetaDataBlock: TimeStamp         = " + props.get(1, 0));
+				Utils.log("                        EncoderName       = " + props.get(2, "unknown"));
+				Utils.log("                        EncoderVersion    = " + props.get(3, "unknown"));
+				Utils.log("                        GeneratorName     = " + props.get(4, "unknown"));
+				Utils.log("                        GeneratorVersion  = " + props.get(5, "unknown"));
 			}
 		
 		}
@@ -2230,7 +2232,7 @@ package away3d.loaders.parsers
 					key = _newBlockBytes.readUnsignedShort();
 					len = _newBlockBytes.readUnsignedInt();
 					if ((_newBlockBytes.position + len) > list_end) {
-						trace("           Error in reading property # " + propertyCnt + " = skipped to end of propertie-list");
+						Utils.log("           Error in reading property # " + propertyCnt + " = skipped to end of propertie-list");
 						_newBlockBytes.position = list_end;
 						return props;
 					}
@@ -2275,7 +2277,7 @@ package away3d.loaders.parsers
 					attr_len = _newBlockBytes.readUnsignedInt();
 					
 					if ((_newBlockBytes.position + attr_len) > list_end) {
-						trace("           Error in reading attribute # " + attibuteCnt + " = skipped to end of attribute-list");
+						Utils.log("           Error in reading attribute # " + attibuteCnt + " = skipped to end of attribute-list");
 						_newBlockBytes.position = list_end;
 						return attributes;
 					}
@@ -2316,7 +2318,7 @@ package away3d.loaders.parsers
 					}
 					
 					if (_debug)
-						trace("attribute = name: " + attr_key + "  / value = " + attr_val);
+						Utils.log("attribute = name: " + attr_key + "  / value = " + attr_val);
 					attributes[attr_key] = attr_val;
 					attibuteCnt += 1;
 				}

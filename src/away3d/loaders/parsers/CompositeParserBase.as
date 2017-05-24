@@ -3,7 +3,9 @@ package away3d.loaders.parsers
 	import away3d.arcane;
 	import away3d.library.assets.IAsset;
 	import away3d.loaders.parsers.particleSubParsers.utils.SingleResourceDependency;
-	
+
+	import com.assukar.airong.utils.Utils;
+
 	import flash.events.TimerEvent;
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
@@ -69,7 +71,7 @@ package away3d.loaders.parsers
 		
 		override protected function onInterval(event:TimerEvent = null):void
 		{
-			trace("important for debug ", this);
+			Utils.log("important for debug ", this);
 			super.onInterval(event);
 		}
 		

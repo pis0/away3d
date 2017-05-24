@@ -160,7 +160,7 @@ package away3d.textures
 			if (!TextureUtils.isDimensionValid(size)) {
 				var oldSize:uint = size;
 				size = TextureUtils.getBestPowerOf2(size);
-				trace("Warning: " + oldSize + " is not a valid material size. Updating to the closest supported resolution: " + size);
+				Utils.log("Warning: " + oldSize + " is not a valid material size. Updating to the closest supported resolution: " + size);
 			}
 			
 			return size;

@@ -9,7 +9,9 @@ package away3d.loaders.parsers
 	import away3d.loaders.misc.ResourceDependency;
 	import away3d.loaders.parsers.utils.ParserUtil;
 	import away3d.tools.utils.TextureUtils;
-	
+
+	import com.assukar.airong.utils.Utils;
+
 	import flash.display.BitmapData;
 	import flash.events.EventDispatcher;
 	import flash.events.TimerEvent;
@@ -271,7 +273,7 @@ package away3d.loaders.parsers
 		{
 			var isValid:Boolean = TextureUtils.isBitmapDataValid(bitmapData);
 			if (!isValid)
-				trace(">> Bitmap loaded is not having power of 2 dimensions or is higher than 2048");
+				Utils.log(">> Bitmap loaded is not having power of 2 dimensions or is higher than 2048");
 			
 			return isValid;
 		}

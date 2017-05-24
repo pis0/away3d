@@ -1,19 +1,19 @@
 package away3d.core.managers
 {
-    import away3d.arcane;
-    import away3d.debug.Debug;
-    import away3d.events.Stage3DEvent;
+	import away3d.arcane;
+	import away3d.debug.Debug;
+	import away3d.events.Stage3DEvent;
 
-    import flash.display.Shape;
-    import flash.display.Stage3D;
-    import flash.display3D.Context3D;
-    import flash.display3D.Context3DClearMask;
-    import flash.display3D.Context3DRenderMode;
-    import flash.display3D.Program3D;
-    import flash.display3D.textures.TextureBase;
-    import flash.events.Event;
-    import flash.events.EventDispatcher;
-    import flash.geom.Rectangle;
+	import flash.display.Shape;
+	import flash.display.Stage3D;
+	import flash.display3D.Context3D;
+	import flash.display3D.Context3DClearMask;
+	import flash.display3D.Context3DRenderMode;
+	import flash.display3D.Program3D;
+	import flash.display3D.textures.TextureBase;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.geom.Rectangle;
 
     use namespace arcane;
 
@@ -638,13 +638,14 @@ package away3d.core.managers
 
 
 import com.assukar.airong.error.AssukarError;
+
 import flash.display.Stage3D;
 import flash.display3D.Context3DProfile;
 import flash.display3D.Context3DRenderMode;
 import flash.utils.setTimeout;
 
 // pis0 24-04-2017
-internal class Context3DProfileResolver
+class Context3DProfileResolver
 {
     static private var profiles:Array = [ //
         Context3DProfile.STANDARD_EXTENDED, //
@@ -664,7 +665,7 @@ internal class Context3DProfileResolver
         try
         {
             stage3D.requestContext3D(Context3DRenderMode.AUTO, currentProfile);
-            if (callback) callback(currentProfile);
+            if (callback!=null) callback(currentProfile);
         }
         catch (err:Error)
         {

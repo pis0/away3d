@@ -76,7 +76,7 @@ package away3d.materials.utils
 		{
 			
 			if (!_src) {
-				trace("Video source not set.");
+				Utils.log("Video source not set.");
 				return;
 			}
 			
@@ -166,12 +166,12 @@ package away3d.materials.utils
 		
 		private function ioErrorHandler(e:IOErrorEvent):void
 		{
-			trace("An IOerror occured: " + e.text);
+			Utils.log("An IOerror occured: " + e.text);
 		}
 		
 		private function securityErrorHandler(e:SecurityErrorEvent):void
 		{
-			trace("A security error occured: " + e.text + " Remember that the FLV must be in the same security sandbox as your SWF.");
+			Utils.log("A security error occured: " + e.text + " Remember that the FLV must be in the same security sandbox as your SWF.");
 		}
 		
 		private function onBWDone():void
@@ -181,7 +181,7 @@ package away3d.materials.utils
 		
 		private function streamClose():void
 		{
-			trace("The stream was closed. Incorrect URL?");
+			Utils.log("The stream was closed. Incorrect URL?");
 		}
 		
 		private function netStatusHandler(e:NetStatusEvent):void
@@ -197,10 +197,10 @@ package away3d.materials.utils
 					//this.dispatchEvent( new VideoEvent(VideoEvent.PLAY,_netStream, file) );
 					break;
 				case "NetStream.Play.StreamNotFound":
-					trace("The file " + _src + " was not found", e);
+					Utils.log("The file " + _src + " was not found", e);
 					break;
 				case "NetConnection.Connect.Success":
-					trace("Connected to stream", e);
+					Utils.log("Connected to stream", e);
 					break;
 			}
 		}

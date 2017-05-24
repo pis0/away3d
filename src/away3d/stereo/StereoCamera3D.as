@@ -95,7 +95,7 @@ package away3d.stereo
 		public function set stereoFocus(value:Number):void
 		{
 			_focus = value;
-			//			trace('focus:', _focus);
+			//			Utils.log('focus:', _focus);
 			invalidateStereoCams();
 		}
 		

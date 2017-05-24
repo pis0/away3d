@@ -2,13 +2,13 @@
  */
 package away3d.filters.tasks
 {
-	import com.adobe.utils.*;
-	
 	import away3d.cameras.*;
 	import away3d.core.managers.*;
 	import away3d.debug.*;
 	import away3d.errors.*;
-	
+
+	import com.adobe.utils.*;
+
 	import flash.display3D.*;
 	import flash.display3D.textures.*;
 	
@@ -137,7 +137,7 @@ package away3d.filters.tasks
 		protected function getFragmentCode():String
 		{
 			throw new AbstractMethodError();
-			return null;
+//			return null;
 		}
 		
 		protected function updateTextures(stage:Stage3DProxy):void

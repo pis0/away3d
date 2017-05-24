@@ -168,7 +168,7 @@ package away3d.audio
 		 */
 		private function onSceneChanged(ev:Object3DEvent):void
 		{
-			trace('scene changed');
+			Utils.log('scene changed');
 			// mute driver if there is no scene available, i.e. when the
 			// sound3d object has been removed from the scene
 			_driver.mute = (_scene == null);

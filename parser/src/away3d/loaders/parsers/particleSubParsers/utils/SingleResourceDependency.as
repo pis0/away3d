@@ -31,7 +31,7 @@ package away3d.loaders.parsers.particleSubParsers.utils
 			super(id, req, data, parentParser, retrieveAsRawData, suppressAssetEvents);
 			if(_hasLoaded)
 			{
-				trace("shared resource");
+				Utils.log("shared resource");
 				for each(var asset:IAsset in loadedAssets)
 					assets.push(asset);
 			}

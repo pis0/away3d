@@ -1,5 +1,6 @@
 package away3d.debug
 {
+	import com.assukar.airong.utils.Utils;
 	
 	/** Class for emmiting debuging messages, warnings and errors */
 	public class Debug
@@ -18,7 +19,7 @@ package away3d.debug
 		public static function trace(message:Object):void
 		{
 			if (active)
-				dotrace(message);
+				Utils.log(message);
 		}
 		
 		public static function warning(message:Object):void
@@ -27,21 +28,13 @@ package away3d.debug
 				error(message);
 				return;
 			}
-			trace("WARNING: " + message);
+			Utils.log("WARNING: " + message);
 		}
 		
 		public static function error(message:Object):void
 		{
-			trace("ERROR: " + message);
+			Utils.log("ERROR: " + message);
 			throw new Error(message);
 		}
 	}
-}
-
-/**
- * @private
- */
-function dotrace(message:Object):void
-{
-	trace(message);
 }

@@ -103,7 +103,7 @@ package away3d.filters.tasks
 			// return newC
 			code += "mov oc, ft1\n";
 			
-			//trace(code);
+			//Utils.log(code);
 			return code;
 		}
 		

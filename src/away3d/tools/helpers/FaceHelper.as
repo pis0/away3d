@@ -251,7 +251,7 @@ package away3d.tools.helpers
 			var vertices:Vector.<Number> = subGeom.vertexData.concat();
 			
 			if (indices.length + 3 > LIMIT || vertices.length + 9 > LIMIT) {
-				trace("splitFace cannot take place, not enough room in target subGeometry");
+				Utils.log("splitFace cannot take place, not enough room in target subGeometry");
 				return;
 			}
 			
@@ -347,7 +347,7 @@ package away3d.tools.helpers
 			var vertices:Vector.<Number> = subGeom.vertexData.concat();
 			
 			if (indices.length + 6 > LIMIT || vertices.length + 18 > LIMIT) {
-				trace("triFace cannot take place, not enough room in target subGeometry");
+				Utils.log("triFace cannot take place, not enough room in target subGeometry");
 				return;
 			}
 			
@@ -419,7 +419,7 @@ package away3d.tools.helpers
 			var vertices:Vector.<Number> = subGeom.vertexData.concat();
 			
 			if (indices.length + 9 > LIMIT || vertices.length + 27 > LIMIT) {
-				trace("quarterFace cannot take place, not enough room in target subGeometry");
+				Utils.log("quarterFace cannot take place, not enough room in target subGeometry");
 				return;
 			}
 			

@@ -960,7 +960,7 @@
 			if (isFinite(ptx) && isFinite(pty))
 				return new Point(ptx, pty);
 			else {
-				trace("infinity");
+				Utils.log("infinity");
 				return null;
 			}
 		}
