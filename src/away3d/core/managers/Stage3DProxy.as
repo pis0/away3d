@@ -554,25 +554,25 @@ package away3d.core.managers
             var renderMode:String = forceSoftware ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
 
             // old
-//            if (profile == "baseline")
-//                _stage3D.requestContext3D(renderMode);
-//            else
-//            {
-//                try
-//                {
-//                    _stage3D["requestContext3D"](renderMode, profile);
-//                } catch (error:Error)
-//                {
-//                    throw "An error occurred creating a context using the given profile. Profiles are not supported for the SDK this was compiled with.";
-//                }
-//            }
-//            _contextRequested = true;
+            if (profile == "baseline")
+                _stage3D.requestContext3D(renderMode);
+            else
+            {
+                try
+                {
+                    _stage3D["requestContext3D"](renderMode, profile);
+                } catch (error:Error)
+                {
+                    throw "An error occurred creating a context using the given profile. Profiles are not supported for the SDK this was compiled with.";
+                }
+            }
+            _contextRequested = true;
 
 
             // new (pis0 24-04-2017)
-            Context3DProfileResolver.resolve(_stage3D, function (profile:String):void
+            Context3DProfileResolver.resolve(_stage3D, function (profilee:String):void
             {
-                _profile = profile;
+                _profile = profilee;
                 _contextRequested = true;
             });
 
@@ -636,6 +636,7 @@ package away3d.core.managers
 
 
 import com.assukar.airong.error.AssukarError;
+import com.assukar.airong.utils.Utils;
 
 import flash.display.Stage3D;
 import flash.display3D.Context3DProfile;
@@ -667,9 +668,9 @@ class Context3DProfileResolver
         }
         catch (err:Error)
         {
+			Utils.log("FAILED " + currentProfile + " " + err);
             if (profiles.length != 0) setTimeout(resolve, 1, stage3D, callback);
             else throw new AssukarError(err.message, "unable to resolve context3D profile");
-//            else throw err;
         }
     }
 }

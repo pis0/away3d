@@ -96,7 +96,6 @@ package away3d.core.managers
 			}
 			
 			throw new Error("Too many Stage3D instances used!");
-			return null;
 		}
 		
 		/**
