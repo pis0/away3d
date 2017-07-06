@@ -567,10 +567,10 @@ package away3d.core.managers
             
             var profiles:Array = !profile && !forceSoftware ? [ //
                 Context3DProfile.STANDARD_EXTENDED, //
-//                Context3DProfile.STANDARD, //
-//                Context3DProfile.STANDARD_CONSTRAINED, //
-//                Context3DProfile.BASELINE_EXTENDED, //
-                Context3DProfile.BASELINE //
+                Context3DProfile.BASELINE, //
+                Context3DProfile.STANDARD, //
+                Context3DProfile.STANDARD_CONSTRAINED, //
+                Context3DProfile.BASELINE_EXTENDED //
             ] : [profile];
             
             // TODO set me false to deploy
