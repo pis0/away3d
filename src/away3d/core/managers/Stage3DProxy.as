@@ -569,7 +569,7 @@ package away3d.core.managers
             _contextRequested = true;
 
 
-            // new (pis0 24-04-2017)
+////            new (pis0 24-04-2017)
 //            Context3DProfileResolver.resolve(_stage3D, function (profilee:String):void
 //            {
 //                _profile = profilee;
