@@ -114,7 +114,8 @@ package away3d.core.managers
          * @param stage3DManager
          * @param forceSoftware Whether to force software mode even if hardware acceleration is available.
          */
-        public function Stage3DProxy( stage3DIndex:int, stage3D:Stage3D, stage3DManager:Stage3DManager, forceSoftware:Boolean = false, profile:String = "baseline" )
+//        public function Stage3DProxy( stage3DIndex:int, stage3D:Stage3D, stage3DManager:Stage3DManager, forceSoftware:Boolean = false, profile:String = "baseline" )
+        public function Stage3DProxy( stage3DIndex:int, stage3D:Stage3D, stage3DManager:Stage3DManager, forceSoftware:Boolean = false, profile:String = null )
         {
             _stage3DIndex = stage3DIndex;
             _stage3D = stage3D;
@@ -534,7 +535,8 @@ package away3d.core.managers
         /**
          * Requests a Context3D object to attach to the managed Stage3D.
          */
-        private function requestContext( forceSoftware:Boolean = false, profile:String = "baseline" ):void
+//        private function requestContext( forceSoftware:Boolean = false, profile:String = "baseline" ):void
+        private function requestContext( forceSoftware:Boolean = false, profile:String = null ):void
         {
 //			Utils.printStackTrace("CONTEXT REQUESTED");
             
@@ -562,21 +564,14 @@ package away3d.core.managers
 //                }
 //            }
 //            _contextRequested = true;
-
-//            new (pis0 24-04-2017)
-//            new Context3DProfileResolver().resolve(_stage3D, function (profilee:String):void
-//            {
-//                _profile = profilee;
-//                _contextRequested = true;
-//            });
             
-            var profiles:Array = [ //
+            var profiles:Array = !profile && !forceSoftware ? [ //
                 Context3DProfile.STANDARD_EXTENDED, //
                 Context3DProfile.STANDARD, //
                 Context3DProfile.STANDARD_CONSTRAINED, //
                 Context3DProfile.BASELINE_EXTENDED, //
                 Context3DProfile.BASELINE //
-            ];
+            ] : [profile];
             
             // TODO set me false to deploy
             const FORCE_FALLBACK_TO_BASELINE_DEBUG:Boolean = false;
@@ -592,7 +587,7 @@ package away3d.core.managers
                 try
                 {
                     if (FORCE_FALLBACK_TO_BASELINE_DEBUG && currentProfile != Context3DProfile.BASELINE) throw new AssukarError("FORCING BASELINE");
-                    stage3D.requestContext3D(Context3DRenderMode.AUTO, currentProfile);
+                    stage3D.requestContext3D(renderMode, currentProfile);
                     
                 } catch (err:Error)
                 {
@@ -636,25 +631,7 @@ package away3d.core.managers
             }
             
             requestNextProfile();
-
-//            function resolve():void
-//            {
-//                _profile = profiles.shift();
-//                try
-//                {
-//                    if (FORCE_FALLBACK_TO_BASELINE_DEBUG && _profile != Context3DProfile.BASELINE) throw new AssukarError("FORCING BASELINE");
-//                    stage3D.requestContext3D(Context3DRenderMode.AUTO, _profile);
-//                    _contextRequested = true;
-//                    Utils.log("PROFILE:SELECTED " + _profile);
-////					Utils.printStackTrace("STAGE PROFILE SELECTED");
-//                } catch (err:Error)
-//                {
-//                    Utils.log("PROFILE:FAILED " + _profile + " " + err);
-//                    if (profiles.length != 0) setTimeout(resolve, 1);
-//                    else throw new AssukarError(err.message, "unable to resolve context3D profile");
-//                }
-//            }
-//            setTimeout(resolve, 1);
+            
         }
         
         /**
