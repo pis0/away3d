@@ -622,7 +622,11 @@ package away3d.core.managers
                     e.stopImmediatePropagation();
                     setTimeout(requestNextProfile, 1);
                 }
-                else onFinished();
+                else
+                {
+                    throw new AssukarError(err.message, "unable to resolve context3D profile");
+                    onFinished();
+                }
             }
             
             function onFinished():void
