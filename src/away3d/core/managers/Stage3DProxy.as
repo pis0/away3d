@@ -660,7 +660,7 @@ class Context3DProfileResolver
     static public function resolve(stage3D:Stage3D, callback:Function = null):void
     {
         currentProfile = profiles.shift();
-
+        
         try
         {
             stage3D.requestContext3D(Context3DRenderMode.AUTO, currentProfile);
