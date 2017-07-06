@@ -46,6 +46,10 @@ package away3d.core.managers
 			return (_instances ||= new Dictionary())[stage] ||= new Stage3DManager(stage, new Stage3DManagerSingletonEnforcer());
 		}
 		
+//		public function getStage3d(index:uint)
+//		{
+//		}
+		
 		/**
 		 * Requests the Stage3DProxy for the given index.
 		 * @param index The index of the requested Stage3D.
@@ -55,7 +59,8 @@ package away3d.core.managers
 		 */
 		public function getStage3DProxy(index:uint, forceSoftware:Boolean = false, profile:String = "baseline"):Stage3DProxy
 		{
-			if (!_stageProxies[index]) {
+			if (!_stageProxies[index]) 
+			{
 				_numStageProxies++;
 				_stageProxies[index] = new Stage3DProxy(index, _stage.stage3Ds[index], this, forceSoftware, profile);
 			}
@@ -85,8 +90,10 @@ package away3d.core.managers
 			var i:uint;
 			var len:uint = _stageProxies.length;
 			
-			while (i < len) {
-				if (!_stageProxies[i]) {
+			while (i < len) 
+			{
+				if (!_stageProxies[i]) 
+				{
 					getStage3DProxy(i, forceSoftware, profile);
 					_stageProxies[i].width = _stage.stageWidth;
 					_stageProxies[i].height = _stage.stageHeight;

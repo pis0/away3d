@@ -4,16 +4,21 @@ package away3d.core.managers
 	import away3d.debug.Debug;
 	import away3d.events.Stage3DEvent;
 
+	import com.assukar.airong.error.AssukarError;
+	import com.assukar.airong.utils.Utils;
+
 	import flash.display.Shape;
 	import flash.display.Stage3D;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DClearMask;
+	import flash.display3D.Context3DProfile;
 	import flash.display3D.Context3DRenderMode;
 	import flash.display3D.Program3D;
 	import flash.display3D.textures.TextureBase;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.geom.Rectangle;
+	import flash.utils.setTimeout;
 
     use namespace arcane;
 
@@ -123,7 +128,7 @@ package away3d.core.managers
             _enableDepthAndStencil = true;
 
             // whatever happens, be sure this has highest priority
-            _stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContext3DUpdate, false, 1000, false);
+            _stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContext3DUpdate, false, int.MAX_VALUE, false);
             requestContext(forceSoftware, profile);
         }
 
@@ -543,6 +548,8 @@ package away3d.core.managers
          */
         private function requestContext(forceSoftware:Boolean = false, profile:String = "baseline"):void
         {
+//			Utils.printStackTrace("CONTEXT REQUESTED");
+			
             // If forcing software, we can be certain that the
             // returned Context3D will be running software mode.
             // If not, we can't be sure and should stick to the
@@ -554,28 +561,59 @@ package away3d.core.managers
             var renderMode:String = forceSoftware ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
 
             // old
-            if (profile == "baseline")
-                _stage3D.requestContext3D(renderMode);
-            else
-            {
-                try
-                {
-                    _stage3D["requestContext3D"](renderMode, profile);
-                } catch (error:Error)
-                {
-                    throw "An error occurred creating a context using the given profile. Profiles are not supported for the SDK this was compiled with.";
-                }
-            }
-            _contextRequested = true;
+//            if (profile == "baseline")
+//                _stage3D.requestContext3D(renderMode);
+//            else
+//            {
+//                try
+//                {
+//                    _stage3D["requestContext3D"](renderMode, profile);
+//                } catch (error:Error)
+//                {
+//                    throw "An error occurred creating a context using the given profile. Profiles are not supported for the SDK this was compiled with.";
+//                }
+//            }
+//            _contextRequested = true;
 
 
-////            new (pis0 24-04-2017)
-//            Context3DProfileResolver.resolve(_stage3D, function (profilee:String):void
+//            new (pis0 24-04-2017)
+//            new Context3DProfileResolver().resolve(_stage3D, function (profilee:String):void
 //            {
 //                _profile = profilee;
 //                _contextRequested = true;
 //            });
 
+		    var profiles:Array = [ //
+		        Context3DProfile.STANDARD_EXTENDED, //
+		        Context3DProfile.STANDARD, //
+		        Context3DProfile.STANDARD_CONSTRAINED, //
+		        Context3DProfile.BASELINE_EXTENDED, //
+		        Context3DProfile.BASELINE //
+		    ];
+			
+			// TODO set me false to deploy
+			const FORCE_FALLBACK_TO_BASELINE_DEBUG: Boolean = false;
+		
+		    function resolve():void
+		    {
+		         _profile = profiles.shift();
+		        try
+		        {
+					if (FORCE_FALLBACK_TO_BASELINE_DEBUG && _profile != Context3DProfile.BASELINE) throw new AssukarError("FORCING BASELINE");
+		            stage3D.requestContext3D(Context3DRenderMode.AUTO, _profile);
+					_contextRequested = true;
+					Utils.log("PROFILE:SELECTED " + _profile);
+//					Utils.printStackTrace("STAGE PROFILE SELECTED");
+		        }
+		        catch (err:Error)
+		        {
+					Utils.log("PROFILE:FAILED " + _profile + " " + err);
+		            if (profiles.length != 0) setTimeout(resolve, 1);
+		            else throw new AssukarError(err.message, "unable to resolve context3D profile");
+		        }
+		    }
+			
+			setTimeout(resolve, 1);
         }
 
 
@@ -635,6 +673,7 @@ package away3d.core.managers
 
 
 
+/*
 import com.assukar.airong.error.AssukarError;
 import com.assukar.airong.utils.Utils;
 
@@ -646,7 +685,7 @@ import flash.utils.setTimeout;
 // pis0 24-04-2017
 class Context3DProfileResolver
 {
-    static private var profiles:Array = [ //
+    private var profiles:Array = [ //
         Context3DProfile.STANDARD_EXTENDED, //
         Context3DProfile.STANDARD, //
         Context3DProfile.STANDARD_CONSTRAINED, //
@@ -655,9 +694,9 @@ class Context3DProfileResolver
     ];
 
 
-    static private var currentProfile:String = null;
+    private var currentProfile:String = null;
 
-    static public function resolve(stage3D:Stage3D, callback:Function = null):void
+    public function resolve(stage3D:Stage3D, callback:Function = null):void
     {
         currentProfile = profiles.shift();
         
@@ -674,3 +713,4 @@ class Context3DProfileResolver
         }
     }
 }
+*/
