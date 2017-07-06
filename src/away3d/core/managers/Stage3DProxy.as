@@ -624,7 +624,7 @@ package away3d.core.managers
                 }
                 else
                 {
-                    throw new AssukarError(err.message, "unable to resolve context3D profile");
+                    throw new AssukarError("unable to resolve context3D profile");
                     onFinished();
                 }
             }
