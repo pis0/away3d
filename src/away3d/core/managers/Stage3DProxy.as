@@ -599,7 +599,17 @@ package away3d.core.managers
             function onCreated( e:Event ):void
             {
                 var context:Context3D = stage3D.context3D;
-                if (renderMode == Context3DRenderMode.AUTO && profiles.length != 0 && context.driverInfo.indexOf("Software") != -1) onError(e);
+//                if (renderMode == Context3DRenderMode.AUTO && profiles.length != 0 && context.driverInfo.indexOf("Software") != -1) onError(e);
+                if (renderMode == Context3DRenderMode.AUTO && profiles.length != 0)
+                {
+                    if (context.driverInfo.indexOf("Software") != -1)
+                    {
+                        _profile = "0";
+                        _contextRequested = true;
+                        Utils.log("RENDER MODE:SOFTWARE");
+                    }
+                    else onError(e);
+                }
                 else
                 {
                     _profile = currentProfile;
