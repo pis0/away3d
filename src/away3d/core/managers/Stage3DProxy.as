@@ -557,10 +557,10 @@ package away3d.core.managers
             _usesSoftwareRendering ||= forceSoftware;
             _profile = profile;
 
-            // ugly stuff for backward compatibility
-            var renderMode:String = forceSoftware ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
-
             // old
+            
+            // ugly stuff for backward compatibility
+//            var renderMode:String = forceSoftware ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
 //            if (profile == "baseline")
 //                _stage3D.requestContext3D(renderMode);
 //            else
