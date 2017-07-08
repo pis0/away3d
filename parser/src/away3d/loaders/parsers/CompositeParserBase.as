@@ -69,7 +69,6 @@ package away3d.loaders.parsers
 		
 		override protected function onInterval(event:TimerEvent = null):void
 		{
-//			trace("important for debug ", this);
 			super.onInterval(event);
 		}
 		

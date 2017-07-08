@@ -96,7 +96,7 @@ package
 		
 		private function onComplete(e:LoaderEvent):void
 		{
-			trace("Loader Complete");
+			Utils.log("Loader Complete");
 		}
 			
 		/**
