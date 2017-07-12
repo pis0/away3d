@@ -590,9 +590,14 @@ package away3d.core.managers
                 
                 Utils.log("AWAY3D onCreated " + context + " " + (context ? context.driverInfo : "") + " " + renderMode + " " + profiles.length);
                 
-                if (renderMode == Context3DRenderMode.AUTO && profiles.length != 0 && context.driverInfo.indexOf("Software") != -1) onError(e);
+                if (renderMode == Context3DRenderMode.AUTO && profiles.length != 0 && context.driverInfo.indexOf("Software") != -1)
+                {
+                    // keep trying a hardware profile
+                    onError(e);
+                }
                 else
                 {
+                    // accept this hardware profile
                     _profile = currentProfile;
                     _contextRequested = true;
                     Utils.log("PROFILE:SELECTED " + currentProfile);
