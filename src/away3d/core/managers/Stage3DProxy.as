@@ -551,10 +551,10 @@ package away3d.core.managers
             
             var profiles:Array = !profile && !forceSoftware ? [ //
                 Context3DProfile.STANDARD_EXTENDED, //
-                Context3DProfile.BASELINE, //
                 Context3DProfile.STANDARD, //
                 Context3DProfile.STANDARD_CONSTRAINED, //
-                Context3DProfile.BASELINE_EXTENDED //
+                Context3DProfile.BASELINE_EXTENDED, //
+                Context3DProfile.BASELINE //
             ] : [];
             
             var currentProfile:String;
@@ -590,42 +590,47 @@ package away3d.core.managers
                 var context:Context3D = stage3D.context3D;
 				
 				Utils.log("AWAY3D onCreated " + context + " " + (context?context.driverInfo:"") + " " + renderMode + " " + profiles.length);
-
+				
                 if (renderMode == Context3DRenderMode.AUTO && profiles.length != 0)
                 {
-                    if (context.driverInfo.indexOf("Software") != -1)
+                    if (context.driverInfo.indexOf("Software") == -1)
                     {
-                        _profile = currentProfile;
-                        _contextRequested = true;
-                        Utils.log("PROFILE:SELECTED " + currentProfile);
-                        onFinished();
+						// accept this hardware profile.
+						accept();
                     }
-                    else onError(e);
+                    else
+					{
+						// context 3d resolution fell back on software. keep trying a hardware profile.
+						onError(e);
+					}
                 }
                 else
                 {
-                    _profile = currentProfile;
-                    _contextRequested = true;
-                    Utils.log("PROFILE:SELECTED " + currentProfile);
-                    onFinished();
+					accept();
                 }
             }
+			
+			function accept(): void
+			{
+                _profile = currentProfile;
+                _contextRequested = true;
+                Utils.log("AWAY3D accept " + currentProfile);
+                onFinished();
+			}
             
             function onError( e:Event ):void
             {
-				Utils.log("AWAY3D onError " + currentProfile + " " + e);
+				Utils.log("AWAY3D onError " + currentProfile + " " + e + " " + profiles.length);
+
+				if (profiles.length == 0)
+				{
+	                onFinished();
+					Utils.log(new AssukarError("unable to resolve context3D profile"), false);
+	                throw new AssukarError("unable to resolve context3D profile");
+				}
 				
-                if (profiles.length != 0)
-                {
-                    Utils.log("trying to requestNextProfile again from \"onError\"...");
-                    e.stopImmediatePropagation();
-                    setTimeout(requestNextProfile, 1);
-					return;
-                }
-				
-                onFinished();
-				Utils.log(new AssukarError("unable to resolve context3D profile"), false);
-                throw new AssukarError("unable to resolve context3D profile");
+                e.stopImmediatePropagation();
+                setTimeout(requestNextProfile, 1);
             }
             
             function onFinished():void
@@ -638,7 +643,6 @@ package away3d.core.managers
             stage3D.addEventListener(ErrorEvent.ERROR, onError, false, 100);
 			
             requestNextProfile();
-            
         }
         
         /**
