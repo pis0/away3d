@@ -1,25 +1,25 @@
 package away3d.core.managers
 {
-    import away3d.arcane
-    import away3d.debug.Debug
-    import away3d.events.Stage3DEvent
-    
-    import com.assukar.airong.error.AssukarError
-    import com.assukar.airong.utils.Utils
-    
-    import flash.display.Shape
-    import flash.display.Stage3D
-    import flash.display3D.Context3D
-    import flash.display3D.Context3DClearMask
-    import flash.display3D.Context3DProfile
-    import flash.display3D.Context3DRenderMode
-    import flash.display3D.Program3D
-    import flash.display3D.textures.TextureBase
-    import flash.events.ErrorEvent
-    import flash.events.Event
-    import flash.events.EventDispatcher
-    import flash.geom.Rectangle
-    import flash.utils.setTimeout
+	import away3d.arcane;
+	import away3d.debug.Debug;
+	import away3d.events.Stage3DEvent;
+
+	import com.assukar.airong.error.AssukarError;
+	import com.assukar.airong.utils.Utils;
+
+	import flash.display.Shape;
+	import flash.display.Stage3D;
+	import flash.display3D.Context3D;
+	import flash.display3D.Context3DClearMask;
+	import flash.display3D.Context3DProfile;
+	import flash.display3D.Context3DRenderMode;
+	import flash.display3D.Program3D;
+	import flash.display3D.textures.TextureBase;
+	import flash.events.ErrorEvent;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.geom.Rectangle;
+	import flash.utils.setTimeout;
     
     use namespace arcane;
     
@@ -547,24 +547,7 @@ package away3d.core.managers
             _usesSoftwareRendering ||= forceSoftware;
             _profile = profile;
             
-            // ugly stuff for backward compatibility
-//            var renderMode:String = forceSoftware ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
             var renderMode:String;
-            
-            // old
-//            if (profile == "baseline")
-//                _stage3D.requestContext3D(renderMode);
-//            else
-//            {
-//                try
-//                {
-//                    _stage3D["requestContext3D"](renderMode, profile);
-//                } catch (error:Error)
-//                {
-//                    throw "An error occurred creating a context using the given profile. Profiles are not supported for the SDK this was compiled with.";
-//                }
-//            }
-//            _contextRequested = true;
             
             var profiles:Array = !profile && !forceSoftware ? [ //
                 Context3DProfile.STANDARD_EXTENDED, //
@@ -574,39 +557,40 @@ package away3d.core.managers
                 Context3DProfile.BASELINE_EXTENDED //
             ] : [];
             
-            // TODO set me false to deploy
-//            const FORCE_FALLBACK_TO_BASELINE_DEBUG:Boolean = false;
-            
             var currentProfile:String;
-            
-            stage3D.addEventListener(Event.CONTEXT3D_CREATE, onCreated, false, 100);
-            stage3D.addEventListener(ErrorEvent.ERROR, onError, false, 100);
+			
+			Utils.log("AWAY3D requestContext " + _profile + " " + _usesSoftwareRendering);
             
             function requestNextProfile():void
             {
                 currentProfile = profiles.shift();
                 renderMode = !currentProfile ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
                 
+				Utils.log("AWAY3D requestNextProfile " + currentProfile + " " + renderMode);
+				
                 try
                 {
-//                    if (FORCE_FALLBACK_TO_BASELINE_DEBUG && currentProfile != Context3DProfile.BASELINE) throw new AssukarError("FORCING BASELINE");
                     stage3D.requestContext3D(renderMode, currentProfile);
-                } catch (err:Error)
+                } 
+				catch (err:Error)
                 {
                     if (profiles.length != 0)
                     {
-                        Utils.log("trying to requestNextProfile again from \"requestNextProfile\"...");
+                        Utils.log("AWAY3D trying to requestNextProfile again from \"requestNextProfile\"...");
                         setTimeout(requestNextProfile, 1);
+						return;
                     }
-                    else throw new AssukarError(err.message, "unable to resolve context3D profile");
+					Utils.log(new AssukarError("unable to resolve context3D profile"), false);
+                    throw new AssukarError(err.message, "unable to resolve context3D profile");
                 }
             }
             
             function onCreated( e:Event ):void
             {
                 var context:Context3D = stage3D.context3D;
+				
+				Utils.log("AWAY3D onCreated " + context + " " + (context?context.driverInfo:"") + " " + renderMode + " " + profiles.length);
 
-//                if (renderMode == Context3DRenderMode.AUTO && profiles.length != 0 && context.driverInfo.indexOf("Software") != -1) onError(e);
                 if (renderMode == Context3DRenderMode.AUTO && profiles.length != 0)
                 {
                     if (context.driverInfo.indexOf("Software") != -1)
@@ -629,18 +613,19 @@ package away3d.core.managers
             
             function onError( e:Event ):void
             {
-                Utils.log("PROFILE:FAILED " + currentProfile + " " + e);
+				Utils.log("AWAY3D onError " + currentProfile + " " + e);
+				
                 if (profiles.length != 0)
                 {
                     Utils.log("trying to requestNextProfile again from \"onError\"...");
                     e.stopImmediatePropagation();
                     setTimeout(requestNextProfile, 1);
+					return;
                 }
-                else
-                {
-                    throw new AssukarError("unable to resolve context3D profile");
-                    onFinished();
-                }
+				
+                onFinished();
+				Utils.log(new AssukarError("unable to resolve context3D profile"), false);
+                throw new AssukarError("unable to resolve context3D profile");
             }
             
             function onFinished():void
@@ -649,6 +634,9 @@ package away3d.core.managers
                 stage3D.removeEventListener(ErrorEvent.ERROR, onError);
             }
             
+            stage3D.addEventListener(Event.CONTEXT3D_CREATE, onCreated, false, 100);
+            stage3D.addEventListener(ErrorEvent.ERROR, onError, false, 100);
+			
             requestNextProfile();
             
         }
