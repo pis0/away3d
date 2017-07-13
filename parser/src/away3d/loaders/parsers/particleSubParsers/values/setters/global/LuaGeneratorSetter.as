@@ -33,7 +33,7 @@ package away3d.loaders.parsers.particleSubParsers.values.setters.global
 		
 		private function onError(e:*):void
 		{
-			trace(e);
+			Utils.log(e);
 			Lua.lua_close(_luaState);
 			_luaState = 0;
 			throw(new Error(e));
