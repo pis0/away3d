@@ -564,7 +564,7 @@ package away3d.core.managers
             function requestNextProfile():void
             {
                 currentProfile = profiles.shift();
-                renderMode = !currentProfile ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
+                renderMode = !currentProfile || forceSoftware ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
                 
                 Utils.log("AWAY3D requestNextProfile " + currentProfile + " " + renderMode);
                 
