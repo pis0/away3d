@@ -5,6 +5,7 @@ package away3d.core.managers
 	import away3d.events.Stage3DEvent;
 
 	import com.assukar.airong.error.AssukarError;
+	import com.assukar.airong.utils.Statics;
 	import com.assukar.airong.utils.Utils;
 
 	import flash.display.Shape;
@@ -606,6 +607,7 @@ package away3d.core.managers
                 }
                 else
                 {
+					// accept the given profile, probably software
 					accept();
                 }
             }
