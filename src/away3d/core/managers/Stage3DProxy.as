@@ -1,25 +1,25 @@
 package away3d.core.managers
 {
-	import away3d.arcane;
-	import away3d.debug.Debug;
-	import away3d.events.Stage3DEvent;
-
-	import com.assukar.airong.error.AssukarError;
-	import com.assukar.airong.utils.Utils;
-
-	import flash.display.Shape;
-	import flash.display.Stage3D;
-	import flash.display3D.Context3D;
-	import flash.display3D.Context3DClearMask;
-	import flash.display3D.Context3DProfile;
-	import flash.display3D.Context3DRenderMode;
-	import flash.display3D.Program3D;
-	import flash.display3D.textures.TextureBase;
-	import flash.events.ErrorEvent;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.geom.Rectangle;
-	import flash.utils.setTimeout;
+    import away3d.arcane
+    import away3d.debug.Debug
+    import away3d.events.Stage3DEvent
+    
+    import com.assukar.airong.error.AssukarError
+    import com.assukar.airong.utils.Utils
+    
+    import flash.display.Shape
+    import flash.display.Stage3D
+    import flash.display3D.Context3D
+    import flash.display3D.Context3DClearMask
+    import flash.display3D.Context3DProfile
+    import flash.display3D.Context3DRenderMode
+    import flash.display3D.Program3D
+    import flash.display3D.textures.TextureBase
+    import flash.events.ErrorEvent
+    import flash.events.Event
+    import flash.events.EventDispatcher
+    import flash.geom.Rectangle
+    import flash.utils.setTimeout
     
     use namespace arcane;
     
@@ -58,6 +58,7 @@ package away3d.core.managers
         private var _renderTarget:TextureBase;
         private var _renderSurfaceSelector:int;
         private var _scissorRect:Rectangle;
+        private var _color:uint;
         private var _backBufferDirty:Boolean;
         private var _viewPort:Rectangle;
         private var _enterFrame:Event;
@@ -65,6 +66,7 @@ package away3d.core.managers
         private var _viewportUpdated:Stage3DEvent;
         private var _viewportDirty:Boolean;
         private var _bufferClear:Boolean;
+        private var _mouse3DManager:Mouse3DManager;
         private var _touch3DManager:Touch3DManager;
         
         private function notifyViewportUpdated():void
@@ -86,7 +88,8 @@ package away3d.core.managers
         
         private function notifyEnterFrame():void
         {
-            if (!hasEventListener(Event.ENTER_FRAME)) return;
+            if (!hasEventListener(Event.ENTER_FRAME))
+                return;
             
             if (!_enterFrame) _enterFrame = new Event(Event.ENTER_FRAME);
             
@@ -207,30 +210,20 @@ package away3d.core.managers
                 _context3D.setRenderToBackBuffer();
         }
         
-//        private var _color:uint = 0x0;
-		
-		static private const COLOR1: uint = ((0x0 >> 16) & 0xff) / 255.0;
-		static private const COLOR2: uint = ((0x0 >> 8) & 0xff) / 255.0;
-		static private const COLOR3: uint = (0x0 & 0xff) / 255.0;
-		static private const COLOR4: uint = ((0x0 >> 24) & 0xff) / 255.0;
-		
         /*
          * Clear and reset the back buffer when using a shared context
          */
         public function clear():void
         {
-			// check removed for performance
-//            if (!_context3D) return;
-
+            if (!_context3D) return;
+            
             if (_backBufferDirty)
             {
                 configureBackBuffer(_backBufferWidth, _backBufferHeight, _antiAlias);
                 _backBufferDirty = false;
-//				Utils.print("_backBufferDirty");
             }
             
-//            _context3D.clear(((_color >> 16) & 0xff) / 255.0, ((_color >> 8) & 0xff) / 255.0, (_color & 0xff) / 255.0, ((_color >> 24) & 0xff) / 255.0);
-			_context3D.clear(COLOR1, COLOR2, COLOR3, COLOR4);
+            _context3D.clear(((_color >> 16) & 0xff) / 255.0, ((_color >> 8) & 0xff) / 255.0, (_color & 0xff) / 255.0, ((_color >> 24) & 0xff) / 255.0);
             
             _bufferClear = true;
         }
@@ -240,15 +233,14 @@ package away3d.core.managers
          */
         public function present():void
         {
-			// check removed for performance
-//            if (!_context3D) return;
+            if (!_context3D)
+                return;
             
             _context3D.present();
             
             _activeProgram3D = null;
-
-			// commented for performance            
-//            if (_mouse3DManager) _mouse3DManager.fireMouseEvents();
+            
+            if (_mouse3DManager) _mouse3DManager.fireMouseEvents();
         }
         
         /**
@@ -423,7 +415,7 @@ package away3d.core.managers
         
         public function set antiAlias( antiAlias:int ):void
         {
-			_antiAlias = antiAlias;
+            _antiAlias = antiAlias;
             _backBufferDirty = true;
         }
         
@@ -437,18 +429,18 @@ package away3d.core.managers
             return _viewPort;
         }
         
-//        /**
-//         * The background color of the Stage3D.
-//         */
-//        public function get color():uint
-//        {
-//            return _color;
-//        }
-//        
-//        public function set color( color:uint ):void
-//        {
-//            _color = color;
-//        }
+        /**
+         * The background color of the Stage3D.
+         */
+        public function get color():uint
+        {
+            return _color;
+        }
+        
+        public function set color( color:uint ):void
+        {
+            _color = color;
+        }
         
         /**
          * The visibility of the Stage3D.
@@ -476,21 +468,17 @@ package away3d.core.managers
             _bufferClear = newBufferClear;
         }
         
-//        private var _mouse3DManager:Mouse3DManager;
-		
         /*
          * Access to fire mouseevents across multiple layered view3D instances
          */
         public function get mouse3DManager():Mouse3DManager
         {
-			return null;
-//            return _mouse3DManager;
+            return _mouse3DManager;
         }
         
         public function set mouse3DManager( value:Mouse3DManager ):void
         {
-			throw new AssukarError("comment for performance");
-//            _mouse3DManager = value;
+            _mouse3DManager = value;
         }
         
         public function get touch3DManager():Touch3DManager
@@ -561,87 +549,88 @@ package away3d.core.managers
             
             var renderMode:String;
             
-            var profiles:Array = !profile && !forceSoftware ? [ //
+            var profiles:Array = !profile ? [ //
                 Context3DProfile.STANDARD_EXTENDED, //
                 Context3DProfile.STANDARD, //
                 Context3DProfile.STANDARD_CONSTRAINED, //
                 Context3DProfile.BASELINE_EXTENDED, //
                 Context3DProfile.BASELINE //
-            ] : [];
+            ] : [profile];
             
             var currentProfile:String;
-			
-			Utils.log("AWAY3D requestContext " + _profile + " " + _usesSoftwareRendering);
+            
+            Utils.log("AWAY3D requestContext " + _profile + " " + _usesSoftwareRendering);
             
             function requestNextProfile():void
             {
                 currentProfile = profiles.shift();
-                renderMode = !currentProfile ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
+                renderMode = !currentProfile || forceSoftware ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
                 
-				Utils.log("AWAY3D requestNextProfile " + currentProfile + " " + renderMode);
-				
+                Utils.log("AWAY3D requestNextProfile " + currentProfile + " " + renderMode);
+                
                 try
                 {
                     stage3D.requestContext3D(renderMode, currentProfile);
-                } 
-				catch (err:Error)
+                } catch (err:Error)
                 {
-                    if (profiles.length != 0)
+//                    if (profiles.length == 0)
+                    if (!currentProfile)
                     {
-                        Utils.log("AWAY3D trying to requestNextProfile again from \"requestNextProfile\"...");
-                        setTimeout(requestNextProfile, 1);
-						return;
+                        Utils.log(new AssukarError("unable to resolve context3D profile"), false);
+                        throw new AssukarError(err.message, "unable to resolve context3D profile");
                     }
-					Utils.log(new AssukarError("unable to resolve context3D profile"), false);
-                    throw new AssukarError(err.message, "unable to resolve context3D profile");
+                    Utils.log("AWAY3D trying to requestNextProfile again from \"requestNextProfile\"...");
+                    setTimeout(requestNextProfile, 1);
+                    
                 }
             }
             
             function onCreated( e:Event ):void
             {
                 var context:Context3D = stage3D.context3D;
-				
-				Utils.log("AWAY3D onCreated " + context + " " + (context?context.driverInfo:"") + " " + renderMode + " " + profiles.length);
-				
+                
+                Utils.log("AWAY3D onCreated " + context + " " + (context ? context.driverInfo : "") + " " + renderMode + " " + profiles.length);
+                
                 if (renderMode == Context3DRenderMode.AUTO && profiles.length != 0)
                 {
                     if (context.driverInfo.indexOf("Software") == -1)
                     {
-						// accept this hardware profile.
-						accept();
+                        // accept this hardware profile.
+                        accept();
                     }
                     else
-					{
-						// context 3d resolution fell back on software. keep trying a hardware profile.
-						onError(e);
-					}
+                    {
+                        // context 3d resolution fell back on software. keep trying a hardware profile.
+                        onError(e);
+                    }
                 }
                 else
                 {
-					// accept the given profile, probably software
-					accept();
+                    // accept the given profile, probably software
+                    accept();
                 }
             }
-			
-			function accept(): void
-			{
+            
+            function accept():void
+            {
                 _profile = currentProfile;
                 _contextRequested = true;
                 Utils.log("AWAY3D accept " + currentProfile);
                 onFinished();
-			}
+            }
             
             function onError( e:Event ):void
             {
-				Utils.log("AWAY3D onError " + currentProfile + " " + e + " " + profiles.length);
+                Utils.log("AWAY3D onError " + currentProfile + " " + e + " " + profiles.length);
 
-				if (profiles.length == 0)
-				{
-	                onFinished();
-					Utils.log(new AssukarError("unable to resolve context3D profile"), false);
-	                throw new AssukarError("unable to resolve context3D profile");
-				}
-				
+//                if (profiles.length == 0)
+                if (!currentProfile)
+                {
+                    onFinished();
+                    Utils.log(new AssukarError("unable to resolve context3D profile"), false);
+                    throw new AssukarError("unable to resolve context3D profile");
+                }
+                
                 e.stopImmediatePropagation();
                 setTimeout(requestNextProfile, 1);
             }
@@ -654,7 +643,7 @@ package away3d.core.managers
             
             stage3D.addEventListener(Event.CONTEXT3D_CREATE, onCreated, false, 100);
             stage3D.addEventListener(ErrorEvent.ERROR, onError, false, 100);
-			
+            
             requestNextProfile();
         }
         
@@ -664,9 +653,6 @@ package away3d.core.managers
          */
         private function onEnterFrame( event:Event ):void
         {
-			// use Startup onEnterFrame, not this
-			if (true == true) throw new AssukarError();
-			
             if (!_context3D) return;
             
             // Clear the stage3D instance
