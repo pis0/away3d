@@ -5,7 +5,6 @@ package away3d.core.managers
 	import away3d.events.Stage3DEvent;
 
 	import com.assukar.airong.error.AssukarError;
-	import com.assukar.airong.utils.Statics;
 	import com.assukar.airong.utils.Utils;
 
 	import flash.display.Shape;
@@ -59,7 +58,6 @@ package away3d.core.managers
         private var _renderTarget:TextureBase;
         private var _renderSurfaceSelector:int;
         private var _scissorRect:Rectangle;
-        private var _color:uint;
         private var _backBufferDirty:Boolean;
         private var _viewPort:Rectangle;
         private var _enterFrame:Event;
@@ -67,7 +65,6 @@ package away3d.core.managers
         private var _viewportUpdated:Stage3DEvent;
         private var _viewportDirty:Boolean;
         private var _bufferClear:Boolean;
-        private var _mouse3DManager:Mouse3DManager;
         private var _touch3DManager:Touch3DManager;
         
         private function notifyViewportUpdated():void
@@ -89,8 +86,7 @@ package away3d.core.managers
         
         private function notifyEnterFrame():void
         {
-            if (!hasEventListener(Event.ENTER_FRAME))
-                return;
+            if (!hasEventListener(Event.ENTER_FRAME)) return;
             
             if (!_enterFrame) _enterFrame = new Event(Event.ENTER_FRAME);
             
@@ -211,20 +207,30 @@ package away3d.core.managers
                 _context3D.setRenderToBackBuffer();
         }
         
+//        private var _color:uint = 0x0;
+		
+		static private const COLOR1: uint = ((0x0 >> 16) & 0xff) / 255.0;
+		static private const COLOR2: uint = ((0x0 >> 8) & 0xff) / 255.0;
+		static private const COLOR3: uint = (0x0 & 0xff) / 255.0;
+		static private const COLOR4: uint = ((0x0 >> 24) & 0xff) / 255.0;
+		
         /*
          * Clear and reset the back buffer when using a shared context
          */
         public function clear():void
         {
-            if (!_context3D) return;
-            
+			// check removed for performance
+//            if (!_context3D) return;
+
             if (_backBufferDirty)
             {
                 configureBackBuffer(_backBufferWidth, _backBufferHeight, _antiAlias);
                 _backBufferDirty = false;
+//				Utils.print("_backBufferDirty");
             }
             
-            _context3D.clear(((_color >> 16) & 0xff) / 255.0, ((_color >> 8) & 0xff) / 255.0, (_color & 0xff) / 255.0, ((_color >> 24) & 0xff) / 255.0);
+//            _context3D.clear(((_color >> 16) & 0xff) / 255.0, ((_color >> 8) & 0xff) / 255.0, (_color & 0xff) / 255.0, ((_color >> 24) & 0xff) / 255.0);
+			_context3D.clear(COLOR1, COLOR2, COLOR3, COLOR4);
             
             _bufferClear = true;
         }
@@ -234,14 +240,15 @@ package away3d.core.managers
          */
         public function present():void
         {
-            if (!_context3D)
-                return;
+			// check removed for performance
+//            if (!_context3D) return;
             
             _context3D.present();
             
             _activeProgram3D = null;
-            
-            if (_mouse3DManager) _mouse3DManager.fireMouseEvents();
+
+			// commented for performance            
+//            if (_mouse3DManager) _mouse3DManager.fireMouseEvents();
         }
         
         /**
@@ -416,7 +423,7 @@ package away3d.core.managers
         
         public function set antiAlias( antiAlias:int ):void
         {
-            _antiAlias = antiAlias;
+			_antiAlias = antiAlias;
             _backBufferDirty = true;
         }
         
@@ -430,18 +437,18 @@ package away3d.core.managers
             return _viewPort;
         }
         
-        /**
-         * The background color of the Stage3D.
-         */
-        public function get color():uint
-        {
-            return _color;
-        }
-        
-        public function set color( color:uint ):void
-        {
-            _color = color;
-        }
+//        /**
+//         * The background color of the Stage3D.
+//         */
+//        public function get color():uint
+//        {
+//            return _color;
+//        }
+//        
+//        public function set color( color:uint ):void
+//        {
+//            _color = color;
+//        }
         
         /**
          * The visibility of the Stage3D.
@@ -469,17 +476,21 @@ package away3d.core.managers
             _bufferClear = newBufferClear;
         }
         
+//        private var _mouse3DManager:Mouse3DManager;
+		
         /*
          * Access to fire mouseevents across multiple layered view3D instances
          */
         public function get mouse3DManager():Mouse3DManager
         {
-            return _mouse3DManager;
+			return null;
+//            return _mouse3DManager;
         }
         
         public function set mouse3DManager( value:Mouse3DManager ):void
         {
-            _mouse3DManager = value;
+			throw new AssukarError("comment for performance");
+//            _mouse3DManager = value;
         }
         
         public function get touch3DManager():Touch3DManager
@@ -653,6 +664,9 @@ package away3d.core.managers
          */
         private function onEnterFrame( event:Event ):void
         {
+			// use Startup onEnterFrame, not this
+			if (true == true) throw new AssukarError();
+			
             if (!_context3D) return;
             
             // Clear the stage3D instance
