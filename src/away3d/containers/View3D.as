@@ -274,7 +274,7 @@
 		override public function get filters():Array
 		{
 			throw new Error("filters is not supported in View3D. Use filters3d instead.");
-			return super.filters;
+//			return super.filters;
 		}
 		
 		/**
@@ -565,8 +565,7 @@
 		
 		public function set shareContext(value:Boolean):void
 		{
-			if (_shareContext == value)
-				return;
+			if (_shareContext == value) return;
 			
 			_shareContext = value;
 			_globalPosDirty = true;
@@ -623,14 +622,15 @@
 		}
 		
 		/**
-		 * Renders the view.
+		 * Renders the view. returns true if the present() was called.
 		 */
-		public function render():void
+		public function render():Boolean
 		{
 			//if context3D has Disposed by the OS,don't render at this frame
-			if (!stage3DProxy.recoverFromDisposal()) {
+			if (!stage3DProxy.recoverFromDisposal()) 
+			{
 				_backBufferInvalid = true;
-				return;
+				return false;
 			}
 			
 			// reset or update render settings
@@ -714,6 +714,8 @@
 			
 			// register that a view has been rendered
 			stage3DProxy.bufferClear = false;
+			
+			return true;
 		}
 		
 		protected function updateGlobalPos():void
