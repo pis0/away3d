@@ -1,22 +1,22 @@
 package away3d.animators
 {
-    import com.assukar.airong.utils.Utils;
-
-    import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.geom.Vector3D;
-	import flash.utils.Dictionary;
-	import flash.utils.getTimer;
-	
-	import away3d.arcane;
 	import away3d.animators.nodes.AnimationNodeBase;
 	import away3d.animators.states.AnimationStateBase;
 	import away3d.animators.states.IAnimationState;
+	import away3d.arcane;
 	import away3d.entities.Mesh;
 	import away3d.events.AnimatorEvent;
 	import away3d.library.assets.AssetType;
 	import away3d.library.assets.IAsset;
 	import away3d.library.assets.NamedAssetBase;
+
+	import com.assukar.airong.utils.Utils;
+
+	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.geom.Vector3D;
+	import flash.utils.Dictionary;
+	import flash.utils.getTimer;
 	
 	use namespace arcane;
 	
@@ -307,7 +307,14 @@ package away3d.animators
 		 */
 		private function onEnterFrame(event:Event = null):void
 		{
-			update(getTimer());
+			try
+			{
+				update(getTimer());
+			}
+			catch (e: Error)
+			{
+				Utils.log(e, false);
+			}
 		}
 		
 		private function applyPositionDelta():void
