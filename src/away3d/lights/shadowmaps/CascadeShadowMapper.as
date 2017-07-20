@@ -7,7 +7,9 @@ package away3d.lights.shadowmaps
 	import away3d.containers.Scene3D;
 	import away3d.core.math.Matrix3DUtils;
 	import away3d.core.render.DepthRenderer;
-	
+
+	import com.assukar.airong.utils.Utils;
+
 	import flash.display3D.textures.TextureBase;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -110,10 +112,10 @@ package away3d.lights.shadowmaps
 		
 		public function set numCascades(value:int):void
 		{
-			if (value == _numCascades)
-				return;
-			if (value < 1 || value > 4)
-				throw new Error("numCascades must be an integer between 1 and 4");
+			Utils.log("numCascades " + _numCascades + ":" + value);
+			
+			if (value == _numCascades) return;
+			if (value < 1 || value > 4) throw new Error("numCascades must be an integer between 1 and 4");
 			_numCascades = value;
 			invalidateScissorRects();
 			init();

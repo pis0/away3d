@@ -1,32 +1,32 @@
 package away3d.materials.passes
 {
-    import away3d.animators.IAnimationSet;
-    import away3d.animators.data.AnimationRegisterCache;
-    import away3d.arcane;
-    import away3d.cameras.Camera3D;
-    import away3d.core.base.IRenderable;
-    import away3d.core.managers.AGALProgram3DCache;
-    import away3d.core.managers.Stage3DProxy;
-    import away3d.debug.Debug;
-    import away3d.errors.AbstractMethodError;
-    import away3d.materials.MaterialBase;
-    import away3d.materials.lightpickers.LightPickerBase;
+	import away3d.animators.IAnimationSet;
+	import away3d.animators.data.AnimationRegisterCache;
+	import away3d.arcane;
+	import away3d.cameras.Camera3D;
+	import away3d.core.base.IRenderable;
+	import away3d.core.managers.AGALProgram3DCache;
+	import away3d.core.managers.Stage3DProxy;
+	import away3d.errors.AbstractMethodError;
+	import away3d.materials.MaterialBase;
+	import away3d.materials.lightpickers.LightPickerBase;
 
-    import com.assukar.airong.utils.Utils;
+	import com.assukar.airong.utils.Debug;
+	import com.assukar.airong.utils.Utils;
 
-    import flash.display.BlendMode;
-    import flash.display3D.Context3D;
-    import flash.display3D.Context3DBlendFactor;
-    import flash.display3D.Context3DCompareMode;
-    import flash.display3D.Context3DTriangleFace;
-    import flash.display3D.Program3D;
-    import flash.display3D.textures.TextureBase;
-    import flash.events.Event;
-    import flash.events.EventDispatcher;
-    import flash.geom.Matrix3D;
-    import flash.geom.Rectangle;
-
-    use namespace arcane;
+	import flash.display.BlendMode;
+	import flash.display3D.Context3D;
+	import flash.display3D.Context3DBlendFactor;
+	import flash.display3D.Context3DCompareMode;
+	import flash.display3D.Context3DTriangleFace;
+	import flash.display3D.Program3D;
+	import flash.display3D.textures.TextureBase;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.geom.Matrix3D;
+	import flash.geom.Rectangle;
+	
+	use namespace arcane;
 	
 	/**
 	 * MaterialPassBase provides an abstract base class for material shader passes. A material pass constitutes at least

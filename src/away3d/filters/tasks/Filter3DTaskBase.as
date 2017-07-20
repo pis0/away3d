@@ -2,15 +2,48 @@
  */
 package away3d.filters.tasks
 {
-	import away3d.cameras.*;
-	import away3d.core.managers.*;
-	import away3d.debug.*;
-	import away3d.errors.*;
+	import away3d.cameras.Camera3D;
+	import away3d.core.managers.AGALProgram3DCache;
+	import away3d.core.managers.Mouse3DManager;
+	import away3d.core.managers.RTTBufferManager;
+	import away3d.core.managers.Stage3DManager;
+	import away3d.core.managers.Stage3DProxy;
+	import away3d.core.managers.Touch3DManager;
+	import away3d.debug.AwayStats;
+	import away3d.debug.Trident;
+	import away3d.debug.WireframeAxesGrid;
+	import away3d.errors.AbstractMethodError;
+	import away3d.errors.AnimationSetError;
+	import away3d.errors.CastError;
+	import away3d.errors.DeprecationError;
+	import away3d.errors.InvalidTextureError;
 
-	import com.adobe.utils.*;
+	import com.adobe.utils.AGALMiniAssembler;
+	import com.assukar.airong.utils.Debug;
 
-	import flash.display3D.*;
-	import flash.display3D.textures.*;
+	import flash.display3D.Context3D;
+	import flash.display3D.Context3DBlendFactor;
+	import flash.display3D.Context3DBufferUsage;
+	import flash.display3D.Context3DClearMask;
+	import flash.display3D.Context3DCompareMode;
+	import flash.display3D.Context3DMipFilter;
+	import flash.display3D.Context3DProfile;
+	import flash.display3D.Context3DProgramType;
+	import flash.display3D.Context3DRenderMode;
+	import flash.display3D.Context3DStencilAction;
+	import flash.display3D.Context3DTextureFilter;
+	import flash.display3D.Context3DTextureFormat;
+	import flash.display3D.Context3DTriangleFace;
+	import flash.display3D.Context3DVertexBufferFormat;
+	import flash.display3D.Context3DWrapMode;
+	import flash.display3D.IndexBuffer3D;
+	import flash.display3D.Program3D;
+	import flash.display3D.VertexBuffer3D;
+	import flash.display3D.textures.CubeTexture;
+	import flash.display3D.textures.RectangleTexture;
+	import flash.display3D.textures.Texture;
+	import flash.display3D.textures.TextureBase;
+	import flash.display3D.textures.VideoTexture;
 	
 	public class Filter3DTaskBase
 	{
