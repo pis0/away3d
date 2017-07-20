@@ -5,4 +5,5 @@
     <AS3Classpath generateProblems="true" sdkBased="true" type="lib" useAsSharedCode="false">frameworks/libs/core.swc</AS3Classpath>
     <AS3Classpath generateProblems="false" inclusion="complete" sdkBased="false" type="project" useAsSharedCode="false">assukar-client-airong</AS3Classpath>
     <AS3Classpath generateProblems="true" sdkBased="false" type="source" useAsSharedCode="false">src</AS3Classpath>
+    <AS3Classpath generateProblems="true" sdkBased="false" type="lib" useAsSharedCode="false">libs/lua.swc</AS3Classpath>
 </AS3Classpath>

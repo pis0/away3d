@@ -510,7 +510,7 @@ package away3d.core.managers
          */
         private function onContext3DUpdate( event:Event ):void
         {
-			Utils.printStackTrace(event + " " + event.bubbles + "/" + event.currentTarget + "/" + event.type + "/" + event.cancelable);
+//			Utils.printStackTrace(event + " " + event.bubbles + "/" + event.currentTarget + "/" + event.type + "/" + event.cancelable);
 			
             if (_stage3D.context3D)
             {
