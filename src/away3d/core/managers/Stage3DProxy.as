@@ -1,25 +1,25 @@
 package away3d.core.managers
 {
-    import away3d.arcane
-    import away3d.debug.Debug
-    import away3d.events.Stage3DEvent
-    
-    import com.assukar.airong.error.AssukarError
-    import com.assukar.airong.utils.Utils
-    
-    import flash.display.Shape
-    import flash.display.Stage3D
-    import flash.display3D.Context3D
-    import flash.display3D.Context3DClearMask
-    import flash.display3D.Context3DProfile
-    import flash.display3D.Context3DRenderMode
-    import flash.display3D.Program3D
-    import flash.display3D.textures.TextureBase
-    import flash.events.ErrorEvent
-    import flash.events.Event
-    import flash.events.EventDispatcher
-    import flash.geom.Rectangle
-    import flash.utils.setTimeout
+	import away3d.arcane;
+	import away3d.events.Stage3DEvent;
+
+	import com.assukar.airong.error.AssukarError;
+	import com.assukar.airong.utils.Debug;
+	import com.assukar.airong.utils.Utils;
+
+	import flash.display.Shape;
+	import flash.display.Stage3D;
+	import flash.display3D.Context3D;
+	import flash.display3D.Context3DClearMask;
+	import flash.display3D.Context3DProfile;
+	import flash.display3D.Context3DRenderMode;
+	import flash.display3D.Program3D;
+	import flash.display3D.textures.TextureBase;
+	import flash.events.ErrorEvent;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.geom.Rectangle;
+	import flash.utils.setTimeout;
     
     use namespace arcane;
     
@@ -127,7 +127,7 @@ package away3d.core.managers
             _enableDepthAndStencil = true;
             
             // whatever happens, be sure this has highest priority
-            _stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContext3DUpdate, false, int.MAX_VALUE, false);
+            _stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContext3DUpdate, false, int.MAX_VALUE, true);
             requestContext(forceSoftware, profile);
         }
         
@@ -510,6 +510,8 @@ package away3d.core.managers
          */
         private function onContext3DUpdate( event:Event ):void
         {
+			Utils.printStackTrace(event + " " + event.bubbles + "/" + event.currentTarget + "/" + event.type + "/" + event.cancelable);
+			
             if (_stage3D.context3D)
             {
                 var hadContext:Boolean = (_context3D != null);
@@ -522,24 +524,29 @@ package away3d.core.managers
                 // which they may not have been if View3D.render() has yet to be
                 // invoked for the first time.
                 if (_backBufferWidth && _backBufferHeight) _context3D.configureBackBuffer(_backBufferWidth, _backBufferHeight, _antiAlias, _backBufferEnableDepthAndStencil);
+				
+				Utils.log("AWAY3D onContext3DUpdate driverInfo=" + _context3D.driverInfo + " _usesSoftwareRendering=" + _usesSoftwareRendering + " hadContext=" + hadContext);
                 
                 // Dispatch the appropriate event depending on whether context was
                 // created for the first time or recreated after a device loss.
                 dispatchEvent(new Stage3DEvent(hadContext ? Stage3DEvent.CONTEXT3D_RECREATED : Stage3DEvent.CONTEXT3D_CREATED));
-                
             }
-            else
-                throw new Error("Rendering context lost!");
+            else throw new Error("Rendering context lost!");
         }
         
+		
+		private var renderMode:String;
+		private var profiles:Array;
+		private var currentProfile:String;
+		private var forceSoftware:Boolean;
+		
         /**
          * Requests a Context3D object to attach to the managed Stage3D.
          */
-//        private function requestContext( forceSoftware:Boolean = false, profile:String = "baseline" ):void
-        private function requestContext( forceSoftware:Boolean = false, profile:String = null ):void
+        private function requestContext(forceSoftware:Boolean = false, profile:String = null ):void
         {
-//			Utils.printStackTrace("CONTEXT REQUESTED");
-            
+			this.forceSoftware = forceSoftware;
+			
             // If forcing software, we can be certain that the
             // returned Context3D will be running software mode.
             // If not, we can't be sure and should stick to the
@@ -547,9 +554,7 @@ package away3d.core.managers
             _usesSoftwareRendering ||= forceSoftware;
             _profile = profile;
             
-            var renderMode:String;
-            
-            var profiles:Array = !profile ? [ //
+            profiles = !profile ? [ //
                 Context3DProfile.STANDARD_EXTENDED, //
                 Context3DProfile.STANDARD, //
                 Context3DProfile.STANDARD_CONSTRAINED, //
@@ -557,94 +562,96 @@ package away3d.core.managers
                 Context3DProfile.BASELINE //
             ] : [profile];
             
-            var currentProfile:String;
-            
             Utils.log("AWAY3D requestContext " + _profile + " " + _usesSoftwareRendering);
             
-            function requestNextProfile():void
-            {
-                currentProfile = profiles.shift();
-                renderMode = !currentProfile || forceSoftware ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
-                
-                Utils.log("AWAY3D requestNextProfile " + currentProfile + " " + renderMode);
-                
-                try
-                {
-                    stage3D.requestContext3D(renderMode, currentProfile);
-                } catch (err:Error)
-                {
-//                    if (profiles.length == 0)
-                    if (!currentProfile)
-                    {
-                        Utils.log(new AssukarError("unable to resolve context3D profile"), false);
-                        throw new AssukarError(err.message, "unable to resolve context3D profile");
-                    }
-                    Utils.log("AWAY3D trying to requestNextProfile again from \"requestNextProfile\"...");
-                    setTimeout(requestNextProfile, 1);
-                    
-                }
-            }
-            
-            function onCreated( e:Event ):void
-            {
-                var context:Context3D = stage3D.context3D;
-                
-                Utils.log("AWAY3D onCreated " + context + " " + (context ? context.driverInfo : "") + " " + renderMode + " " + profiles.length);
-                
-                if (renderMode == Context3DRenderMode.AUTO && profiles.length != 0)
-                {
-                    if (context.driverInfo.indexOf("Software") == -1)
-                    {
-                        // accept this hardware profile.
-                        accept();
-                    }
-                    else
-                    {
-                        // context 3d resolution fell back on software. keep trying a hardware profile.
-                        onError(e);
-                    }
-                }
-                else
-                {
-                    // accept the given profile, probably software
-                    accept();
-                }
-            }
-            
-            function accept():void
-            {
-                _profile = currentProfile;
-                _contextRequested = true;
-                Utils.log("AWAY3D accept " + currentProfile);
-                onFinished();
-            }
-            
-            function onError( e:Event ):void
-            {
-                Utils.log("AWAY3D onError " + currentProfile + " " + e + " " + profiles.length);
-
-//                if (profiles.length == 0)
-                if (!currentProfile)
-                {
-                    onFinished();
-                    Utils.log(new AssukarError("unable to resolve context3D profile"), false);
-                    throw new AssukarError("unable to resolve context3D profile");
-                }
-                
-                e.stopImmediatePropagation();
-                setTimeout(requestNextProfile, 1);
-            }
-            
-            function onFinished():void
-            {
-                stage3D.removeEventListener(Event.CONTEXT3D_CREATE, onCreated);
-                stage3D.removeEventListener(ErrorEvent.ERROR, onError);
-            }
-            
-            stage3D.addEventListener(Event.CONTEXT3D_CREATE, onCreated, false, 100);
+            addEventListener(Stage3DEvent.CONTEXT3D_CREATED, onCreated, false, 100);
+			addEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onRecreated, false, 100);
+			
             stage3D.addEventListener(ErrorEvent.ERROR, onError, false, 100);
             
             requestNextProfile();
+        }
+		
+        private function requestNextProfile():void
+        {
+            currentProfile = profiles.shift();
+            renderMode = !currentProfile || forceSoftware ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
+            
+            Utils.log("AWAY3D requestNextProfile " + currentProfile + " " + renderMode);
+            
+            try
+            {
+                stage3D.requestContext3D(renderMode, currentProfile);
+            } 
+			catch (err:Error)
+            {
+                if (!currentProfile)
+                {
+                    Utils.log(new AssukarError("unable to resolve context3D profile"), false);
+                    throw new AssukarError(err.message, "unable to resolve context3D profile");
+                }
+                Utils.log("AWAY3D requestNextProfile TRYANOTHER");
+                setTimeout(requestNextProfile, 1);
+            }
+        }
+        
+        private function onCreated( e:Stage3DEvent ):void
+        {
+            var context:Context3D = stage3D.context3D;
+            Utils.log("AWAY3D onCreated " + (context?context.driverInfo:"") + " " + renderMode + " " + profiles.length);
+            
+            if (renderMode == Context3DRenderMode.AUTO && profiles.length != 0)
+            {
+                if (context.driverInfo.indexOf("Software") == -1)
+                {
+                    // accept this hardware profile.
+                    accept();
+                }
+                else
+                {
+                    // context 3d resolution fell back on software. keep trying a hardware profile.
+                    onError(e);
+                }
+            }
+            else
+            {
+                // accept the given profile, probably software
+                accept();
+            }
+        }
+        
+        private function accept():void
+        {
+            Utils.log("AWAY3D accept " + currentProfile);
+            _profile = currentProfile;
+            _contextRequested = true;
+            onFinished();
+        }
+        
+        private function onError( e:Event ):void
+        {
+            Utils.log("AWAY3D onError " + currentProfile + " " + e + " " + profiles.length);
+            if (!currentProfile)
+            {
+                onFinished();
+                Utils.log(new AssukarError("unable to resolve context3D profile"), false);
+                throw new AssukarError("unable to resolve context3D profile");
+            }
+            e.stopImmediatePropagation();
+            setTimeout(requestNextProfile, 1);
+        }
+		
+		private function onRecreated( e:Stage3DEvent ):void
+		{
+            var context:Context3D = stage3D.context3D;
+            Utils.log("AWAY3D onRecreated " + context + " " + (context ? context.driverInfo : "") + " " + renderMode);
+		}
+        
+        private function onFinished():void
+        {
+			Utils.log("AWAY3D onFinished");
+            stage3D.removeEventListener(Stage3DEvent.CONTEXT3D_CREATED, onCreated);
+            stage3D.removeEventListener(ErrorEvent.ERROR, onError);
         }
         
         /**

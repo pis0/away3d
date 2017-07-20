@@ -4,10 +4,10 @@ package away3d.core.render
 	import away3d.core.data.RenderableListItem;
 	import away3d.core.math.Matrix3DUtils;
 	import away3d.core.traverse.EntityCollector;
-	import away3d.debug.Debug;
-	
+
 	import com.adobe.utils.AGALMiniAssembler;
-	
+	import com.assukar.airong.utils.Debug;
+
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DBlendFactor;
 	import flash.display3D.Context3DCompareMode;

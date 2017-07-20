@@ -8,7 +8,9 @@ package away3d.materials.methods
 	import away3d.lights.*;
 	import away3d.lights.shadowmaps.*;
 	import away3d.materials.compilation.*;
-	
+
+	import com.assukar.airong.utils.Utils;
+
 	import flash.events.*;
 	
 	use namespace arcane;
@@ -254,6 +256,7 @@ package away3d.materials.methods
 		 */
 		private function onCascadeChange(event:Event):void
 		{
+			Utils.log("onCascadeChange");
 			invalidateShaderProgram();
 		}
 

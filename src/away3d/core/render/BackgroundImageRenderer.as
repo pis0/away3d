@@ -1,10 +1,10 @@
 package away3d.core.render
 {
 	import away3d.core.managers.Stage3DProxy;
-	import away3d.debug.Debug;
 	import away3d.textures.Texture2DBase;
 
 	import com.adobe.utils.AGALMiniAssembler;
+	import com.assukar.airong.utils.Debug;
 
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DBlendFactor;

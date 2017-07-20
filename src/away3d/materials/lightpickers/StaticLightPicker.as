@@ -1,12 +1,14 @@
 package away3d.materials.lightpickers
 {
-	import flash.events.Event;
-	
 	import away3d.events.LightEvent;
 	import away3d.lights.DirectionalLight;
 	import away3d.lights.LightBase;
 	import away3d.lights.LightProbe;
 	import away3d.lights.PointLight;
+
+	import com.assukar.airong.utils.Utils;
+
+	import flash.events.Event;
 
 	/**
 	 * StaticLightPicker is a light picker that provides a static set of lights. The lights can be reassigned, but
@@ -88,6 +90,7 @@ package away3d.materials.lightpickers
 			_lightProbeWeights = new Vector.<Number>(Math.ceil(numLightProbes/4)*4, true);
 			
 			// notify material lights have changed
+			Utils.log("lights");
 			dispatchEvent(new Event(Event.CHANGE));
 		}
 
@@ -97,8 +100,7 @@ package away3d.materials.lightpickers
 		private function clearListeners():void
 		{
 			var len:uint = _lights.length;
-			for (var i:int = 0; i < len; ++i)
-				_lights[i].removeEventListener(LightEvent.CASTS_SHADOW_CHANGE, onCastShadowChange);
+			for (var i:int = 0; i < len; ++i) _lights[i].removeEventListener(LightEvent.CASTS_SHADOW_CHANGE, onCastShadowChange);
 		}
 
 		/**
@@ -116,6 +118,7 @@ package away3d.materials.lightpickers
 			else if (light is DirectionalLight)
 				updateDirectionalCasting(light as DirectionalLight);
 			
+			Utils.log("onCastShadowChange");
 			dispatchEvent(new Event(Event.CHANGE));
 		}
 
