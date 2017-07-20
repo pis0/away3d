@@ -1,6 +1,8 @@
 package away3d.animators
 {
-	import flash.display.Sprite;
+    import com.assukar.airong.utils.Utils;
+
+    import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Vector3D;
 	import flash.utils.Dictionary;

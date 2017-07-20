@@ -5,6 +5,8 @@ package away3d.animators
     import away3d.entities.Mesh;
     import away3d.events.ParticleGroupEvent;
 
+    import com.assukar.airong.utils.Utils;
+
     /**
      * ...
      * @author
@@ -46,6 +48,8 @@ package away3d.animators
 
                 animator.resetTime(_absoluteTime + animatorTimeOffset[index]);
             }
+
+
         }
 
         override protected function updateDeltaTime(dt:Number):void
