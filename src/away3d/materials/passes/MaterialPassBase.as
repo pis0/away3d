@@ -7,11 +7,11 @@ package away3d.materials.passes
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.AGALProgram3DCache;
 	import away3d.core.managers.Stage3DProxy;
-	import away3d.debug.Debug;
 	import away3d.errors.AbstractMethodError;
 	import away3d.materials.MaterialBase;
 	import away3d.materials.lightpickers.LightPickerBase;
 
+	import com.assukar.airong.utils.Debug;
 	import com.assukar.airong.utils.Utils;
 
 	import flash.display.BlendMode;

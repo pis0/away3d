@@ -12,7 +12,6 @@ package away3d.loaders.parsers
 	import away3d.core.base.CompactSubGeometry;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.SkinnedSubGeometry;
-	import away3d.debug.Debug;
 	import away3d.entities.Mesh;
 	import away3d.loaders.misc.ResourceDependency;
 	import away3d.materials.ColorMaterial;
@@ -29,6 +28,7 @@ package away3d.loaders.parsers
 	import away3d.textures.BitmapTexture;
 	import away3d.textures.Texture2DBase;
 
+	import com.assukar.airong.utils.Debug;
 	import com.assukar.airong.utils.Utils;
 
 	import flash.display.BitmapData;
