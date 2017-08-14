@@ -66,7 +66,12 @@ package away3d.animators
                     if (dt != 0 && (eventProperty.occurTime * 1000 - _absoluteTime) * (eventProperty.occurTime * 1000 - (_absoluteTime - dt)) <= 0)
                     {
                         if (hasEventListener(ParticleGroupEvent.OCCUR))
+                        {
+                            Utils.log("ParticleGroupEvent.OCCUR: "+eventProperty.customName);
                             dispatchEvent(new ParticleGroupEvent(ParticleGroupEvent.OCCUR, eventProperty));
+                        }
+
+
                     }
                 }
             }
