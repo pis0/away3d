@@ -48,7 +48,8 @@ package
 	import away3d.entities.Mesh;
 	import away3d.extrusions.*;
 	import away3d.filters.BloomFilter3D;
-	import away3d.lights.*;
+    import away3d.filters.Filter3DBase
+    import away3d.lights.*;
 	import away3d.materials.*;
 	import away3d.materials.lightpickers.*;
 	import away3d.materials.methods.*;
@@ -200,7 +201,8 @@ package
 			view.addSourceURL("srcview/index.html");
 			addChild(view);
 
-			view.filters3d = [ new BloomFilter3D(200, 200, .85, 15, 2) ];
+//			view.filters3d = [ new BloomFilter3D(200, 200, .85, 15, 2) ];
+			view.filters3d = new <Filter3DBase>[ new BloomFilter3D(200, 200, .85, 15, 2) ];
 
 			//add signature
 			Signature = Sprite(new SignatureSwf());

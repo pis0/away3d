@@ -2,8 +2,10 @@ package away3d.debug
 {
 	import away3d.arcane;
 	import away3d.containers.View3D;
-	
-	import flash.display.BitmapData;
+    
+    import com.assukar.airong.utils.Utils
+    
+    import flash.display.BitmapData;
 	import flash.display.CapsStyle;
 	import flash.display.Graphics;
 	import flash.display.LineScaleMode;

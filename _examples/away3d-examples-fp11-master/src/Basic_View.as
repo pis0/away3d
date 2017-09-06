@@ -39,7 +39,8 @@ THE SOFTWARE.
 package
 {
 	import away3d.containers.*;
-	import away3d.entities.*;
+    import away3d.debug.AwayStats
+    import away3d.entities.*;
 	import away3d.materials.*;
 	import away3d.primitives.*;
 	import away3d.utils.*;
@@ -87,6 +88,9 @@ package
 			addEventListener(Event.ENTER_FRAME, _onEnterFrame);
 			stage.addEventListener(Event.RESIZE, onResize);
 			onResize();
+            
+            
+            addChild(new AwayStats());
 		}
 		
 		/**
