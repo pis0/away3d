@@ -1,5 +1,7 @@
 *.iml
 
+_examples
+
 .settings
 .project
 /target/

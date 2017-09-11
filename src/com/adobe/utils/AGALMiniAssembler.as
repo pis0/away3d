@@ -34,8 +34,8 @@ package com.adobe.utils
 	// ===========================================================================
 	//	Imports
 	// ---------------------------------------------------------------------------
-    import com.assukar.airong.utils.Utils;
-
+    import com.assukar.airong.utils.Utils
+    
     import flash.display3D.*;
 	import flash.utils.*;
 	
