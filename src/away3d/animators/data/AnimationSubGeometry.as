@@ -60,7 +60,7 @@ package away3d.animators.data
 		public function dispose():void
 		{
 			while (_vertexBuffer.length) {
-				var vertexBuffer:VertexBuffer3D = _vertexBuffer.pop()
+				var vertexBuffer:VertexBuffer3D = _vertexBuffer.pop();
 				
 				if (vertexBuffer)
 					vertexBuffer.dispose();

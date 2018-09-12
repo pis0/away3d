@@ -150,7 +150,7 @@ package away3d.tools.utils
 			for (i = 0; i < numSubGeoms; ++i) {
 				sub_geom = geometries[i];
 				
-				vertices = sub_geom.vertexData
+				vertices = sub_geom.vertexData;
 				vertexOffset = sub_geom.vertexOffset;
 				vertexStride = sub_geom.vertexStride;
 				
@@ -257,7 +257,7 @@ package away3d.tools.utils
 			for (i = 0; i < numSubGeoms; ++i) {
 				sub_geom = geometries[i];
 				
-				vertices = sub_geom.vertexData
+				vertices = sub_geom.vertexData;
 				vertexOffset = sub_geom.vertexOffset;
 				vertexStride = sub_geom.vertexStride;
 				
@@ -334,7 +334,7 @@ package away3d.tools.utils
 			for (i = 0; i < numSubGeoms; ++i) {
 				sub_geom = geometries[i];
 				
-				vertices = sub_geom.vertexData
+				vertices = sub_geom.vertexData;
 				vertexOffset = sub_geom.vertexOffset;
 				vertexStride = sub_geom.vertexStride;
 				

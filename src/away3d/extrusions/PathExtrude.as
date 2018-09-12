@@ -1092,7 +1092,7 @@ package away3d.extrusions
 			if (_coverSegment)
 				_segv = 1/(_subdivision - 1);
 			
-			var lastP:Vector.<Vector3D>
+			var lastP:Vector.<Vector3D>;
 			if (_closePath)
 				lastP = new Vector.<Vector3D>();
 			

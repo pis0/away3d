@@ -150,7 +150,7 @@ package away3d.tools.commands
 		{
 			var i:uint;
 			var subIdx:uint;
-			var oldGeom:Geometry
+			var oldGeom:Geometry;
 			var destGeom:Geometry;
 			var useSubMaterials:Boolean;
 			

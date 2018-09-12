@@ -402,7 +402,7 @@
 		{
 			super.dispose();
 			removeAllSegments();
-			_segments = null
+			_segments = null;
 			_material = null;
 			var subSet:SubSet = _subSets[0];
 			subSet.vertices = null;

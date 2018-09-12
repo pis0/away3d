@@ -32,7 +32,7 @@ package away3d.loaders.parsers.particleSubParsers.values.color
 			if (_isFirstParsing)
 			{
 				var Id:Object;
-				var subData:Object
+				var subData:Object;
 				var valueCls:Class;
 				//for Multiplier
 				var object:Object = _data.redMultiplierValue;
