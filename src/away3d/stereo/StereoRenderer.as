@@ -5,7 +5,7 @@ package away3d.stereo
 	import away3d.stereo.methods.InterleavedStereoRenderMethod;
 	import away3d.stereo.methods.StereoRenderMethodBase;
 
-	import com.adobe.utils.AGALMiniAssembler;
+	import com.adobe.utils.AGALMiniAssembler2;
 	import com.assukar.airong.utils.Debug;
 
 	import flash.display3D.Context3D;
@@ -120,7 +120,7 @@ package away3d.stereo
 		private function getProgram3D(stage3DProxy:Stage3DProxy):Program3D
 		{
 			if (_program3DInvalid) {
-				var assembler:AGALMiniAssembler;
+				var assembler:AGALMiniAssembler2;
 				var vertexCode:String;
 				var fragmentCode:String;
 				
@@ -132,7 +132,7 @@ package away3d.stereo
 				
 				if (_program3D)
 					_program3D.dispose();
-				assembler = new AGALMiniAssembler(Debug.active);
+				assembler = new AGALMiniAssembler2(Debug.active);
 				
 				_program3D = stage3DProxy.context3D.createProgram();
 				_program3D.upload(assembler.assemble(Context3DProgramType.VERTEX, vertexCode),

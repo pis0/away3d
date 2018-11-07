@@ -18,7 +18,7 @@ package away3d.filters.tasks
 	import away3d.errors.DeprecationError;
 	import away3d.errors.InvalidTextureError;
 
-	import com.adobe.utils.AGALMiniAssembler;
+	import com.adobe.utils.AGALMiniAssembler2;
 	import com.assukar.airong.utils.Debug;
 
 	import flash.display3D.Context3D;
@@ -156,8 +156,8 @@ package away3d.filters.tasks
 				_program3D.dispose();
 			_program3DContext = stage.context3D;
 			_program3D = _program3DContext.createProgram();
-			_program3D.upload(new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, getVertexCode()),
-				new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, getFragmentCode()));
+			_program3D.upload(new AGALMiniAssembler2(Debug.active).assemble(Context3DProgramType.VERTEX, getVertexCode()),
+				new AGALMiniAssembler2(Debug.active).assemble(Context3DProgramType.FRAGMENT, getFragmentCode()));
 			_program3DInvalid = false;
 		}
 		

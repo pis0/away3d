@@ -5,7 +5,7 @@ package away3d.core.render
 	import away3d.core.math.Matrix3DUtils;
 	import away3d.core.traverse.EntityCollector;
 
-	import com.adobe.utils.AGALMiniAssembler;
+	import com.adobe.utils.AGALMiniAssembler2;
 	import com.assukar.airong.utils.Debug;
 
 	import flash.display3D.Context3D;
@@ -97,8 +97,8 @@ package away3d.core.render
 				"mul v0, vt0, vt1.x	\n";
 			fragmentCode = "mov oc, v0\n";
 			
-			_program3D.upload(new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, vertexCode),
-				new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, fragmentCode));
+			_program3D.upload(new AGALMiniAssembler2(Debug.active).assemble(Context3DProgramType.VERTEX, vertexCode),
+				new AGALMiniAssembler2(Debug.active).assemble(Context3DProgramType.FRAGMENT, fragmentCode));
 		}
 	}
 }
