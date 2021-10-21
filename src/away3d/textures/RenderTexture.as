@@ -53,7 +53,7 @@
 		
 		override protected function createTexture(context:Context3D):TextureBase
 		{
-			return context.createTexture(width, height, Context3DTextureFormat.BGRA, true);
+			return context.createTexture(width, height, Context3DTextureFormat.BGRA_PACKED, true);
 		}
 	}
 }

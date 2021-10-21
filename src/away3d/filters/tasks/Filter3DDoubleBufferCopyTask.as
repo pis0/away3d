@@ -36,7 +36,7 @@ package away3d.filters.tasks
 			if (_secondaryInputTexture)
 				_secondaryInputTexture.dispose();
 			
-			_secondaryInputTexture = stage.context3D.createTexture(_textureWidth >> _textureScale, _textureHeight >> _textureScale, Context3DTextureFormat.BGRA, true);
+			_secondaryInputTexture = stage.context3D.createTexture(_textureWidth >> _textureScale, _textureHeight >> _textureScale, Context3DTextureFormat.BGRA_PACKED, true);
 			
 			var dummy:BitmapData = new BitmapData(_textureWidth >> _textureScale, _textureHeight >> _textureScale, false, 0);
 			(_mainInputTexture as Texture).uploadFromBitmapData(dummy);

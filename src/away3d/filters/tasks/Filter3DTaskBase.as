@@ -178,7 +178,7 @@ package away3d.filters.tasks
 			if (_mainInputTexture)
 				_mainInputTexture.dispose();
 			_mainInputTextureContext = stage.context3D;
-			_mainInputTexture = _mainInputTextureContext.createTexture(_scaledTextureWidth, _scaledTextureHeight, Context3DTextureFormat.BGRA, true);
+			_mainInputTexture = _mainInputTextureContext.createTexture(_scaledTextureWidth, _scaledTextureHeight, Context3DTextureFormat.BGRA_PACKED, true);
 			
 			_textureDimensionsInvalid = false;
 		}

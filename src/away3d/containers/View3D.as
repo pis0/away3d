@@ -801,7 +801,7 @@
 			if (_depthRender)
 				_depthRender.dispose();
 			
-			_depthRender = context.createTexture(_rttBufferManager.textureWidth, _rttBufferManager.textureHeight, Context3DTextureFormat.BGRA, true);
+			_depthRender = context.createTexture(_rttBufferManager.textureWidth, _rttBufferManager.textureHeight, Context3DTextureFormat.BGRA_PACKED, true);
 		}
 		
 		/**
