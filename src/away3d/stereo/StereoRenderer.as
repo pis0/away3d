@@ -55,7 +55,7 @@ package away3d.stereo
 					setupRTTManager(stage3DProxy);
 				
 				_leftTexture = stage3DProxy.context3D.createTexture(
-					_rttManager.textureWidth, _rttManager.textureHeight, Context3DTextureFormat.BGRA, true);
+					_rttManager.textureWidth, _rttManager.textureHeight, Context3DTextureFormat.BGRA_PACKED, true);
 				_leftTextureInvalid = false;
 			}
 			
@@ -69,7 +69,7 @@ package away3d.stereo
 					setupRTTManager(stage3DProxy);
 				
 				_rightTexture = stage3DProxy.context3D.createTexture(
-					_rttManager.textureWidth, _rttManager.textureHeight, Context3DTextureFormat.BGRA, true);
+					_rttManager.textureWidth, _rttManager.textureHeight, Context3DTextureFormat.BGRA_PACKED, true);
 				_rightTextureInvalid = false;
 			}
 			

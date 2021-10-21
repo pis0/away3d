@@ -42,7 +42,7 @@
 		
 		override protected function createTexture(context:Context3D):TextureBase
 		{
-			return context.createCubeTexture(_width, Context3DTextureFormat.BGRA, true);
+			return context.createCubeTexture(_width, Context3DTextureFormat.BGRA_PACKED, true);
 		}
 	}
 }

@@ -15,7 +15,7 @@ package away3d.textures
 	
 	public class TextureProxyBase extends NamedAssetBase implements IAsset
 	{
-		protected var _format:String = Context3DTextureFormat.BGRA;
+		protected var _format:String = Context3DTextureFormat.BGRA_PACKED;
 		protected var _hasMipmaps:Boolean = true;
 		
 		protected var _textures:Vector.<TextureBase>;

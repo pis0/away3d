@@ -34,7 +34,7 @@ package away3d.textures
 			switch (_format) {
 				case 0:
 				case 1:
-					format = Context3DTextureFormat.BGRA;
+					format = Context3DTextureFormat.BGRA_PACKED;
 					break;
 				case 2:
 				case 3:
